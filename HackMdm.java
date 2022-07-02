@@ -39,7 +39,6 @@ public class HackMdm extends Object {
     Context context;
     ComponentName testDeviceAdmin;
     DevicePolicyManager dpm;
-
     ActivityManager am;
     private final static String launcher="com.android.launcher3";
     private final static String execmdsvc="com.drupe.swd.launcher.huoshan.mdm.service.ExecuteCmdService";
