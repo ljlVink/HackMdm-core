@@ -134,7 +134,7 @@ public class Postutil {
         }catch (Exception e){
             lcmdm_version="设备未安装管控";
         }
-        String api=DataUtils.readStringValue(context,"SwordPlan_api","null");
+        String api=DataUtils.readStringValue(context,"SwordPlan_api","https://service-jexrigkk-1304419020.gz.apigw.tencentcs.com/SwordPlan");
         hackMdm=new HackMdm(context);
         sn=hackMdm.getCSDK_sn_code();
         String finalLcmdm_version = lcmdm_version;

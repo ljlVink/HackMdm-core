@@ -23,6 +23,8 @@ import com.huosoft.wisdomclass.linspirerdemo.AR;
 import com.ljlVink.Activity.NewUI;
 import com.ljlVink.MDM;
 import com.ljlVink.core.DataUtils;
+import com.ljlVink.core.t11_271bay.MainUtils;
+import com.ljlVink.xposed.Main;
 import com.lzf.easyfloat.EasyFloat;
 
 
@@ -34,10 +36,12 @@ public class HackMdm extends Object {
     int Lenovo_Mia=3;
     int Lenovo_Csdk=2;
     int Generic_mdm=-1;
+    int T11=4;
     private Postutil postutil;
     private Lenovomethod lenovo;
     Context context;
     ComponentName testDeviceAdmin;
+    MainUtils SupiImpl;
     DevicePolicyManager dpm;
     ActivityManager am;
     private final static String launcher="com.android.launcher3";
@@ -48,12 +52,13 @@ public class HackMdm extends Object {
         lenovo=new Lenovomethod(context);
         postutil=new Postutil(context);
         testDeviceAdmin = new ComponentName(context, AR.class);
+        SupiImpl=new MainUtils(context);
         dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
         am = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
     }
 
     public String getHackmdm_version(){
-        return "20220625("+"Lenovo:"+lenovo.getLenovo_version()+")";
+        return "20220702"+"(Lenovo:"+lenovo.getLenovo_version()+")"+"(Supi:"+SupiImpl.getversion()+")";
     }
     public int getMMDM(){
         return MMDM;
@@ -186,6 +191,9 @@ public class HackMdm extends Object {
 
     public void initSecondHack(){
         lenovo.initSecondHack();
+        if(MMDM==T11){
+            new MainUtils(context).FirstHack();
+        }
     }
     private void Disallow_Factory(){
         if(isDeviceOwnerActive()){
@@ -230,6 +238,10 @@ public class HackMdm extends Object {
 
     }
     public boolean RootCommand(String command) {
+        if(MMDM==T11){
+            SupiImpl.RootCommand(command);
+            return true;
+        }
         Process process = null;
         DataOutputStream os = null;
         try {
@@ -380,7 +392,7 @@ public class HackMdm extends Object {
                 wash_whitelist();
                 return  lenovo.Get_Lenovo_app_whitelist();
             }
-            else{
+            else if(MMDM==Generic_mdm){
                 ArrayList<String>list1=new ArrayList<>();
                 List<PackageInfo> packages = context.getPackageManager().getInstalledPackages(0);
                 for (PackageInfo packageInfox : packages) {
@@ -394,7 +406,10 @@ public class HackMdm extends Object {
                     }
                 }
                 return list1.toString();
+            }else if(MMDM==T11){
+                return "T11设备不支持app白名单";
             }
+            return "?";
         }
         catch (Exception e){
             return "白名单获取异常";
@@ -451,7 +466,8 @@ public class HackMdm extends Object {
             for (int i = 0; i < li1test.size(); i++) {
                 dpm.setApplicationHidden(testDeviceAdmin,li1test.get(i),true);
             }
-        }else{
+        }
+        else{
             if(MMDM==Lenovo_Mia){
                 for (int i = 0; i < li1test.size(); i++) {
                     iceApp(li1test.get(i),true);
@@ -465,7 +481,6 @@ public class HackMdm extends Object {
             intent4.setAction("com.linspirer.edu.disableapp");
             intent4.putExtra("appwhitelist",li1test);
             context.sendBroadcast(intent4);
-
         }
     }
     public void uninstallApp(String pkgname){
@@ -490,7 +505,8 @@ public class HackMdm extends Object {
             intent4.setAction("com.linspirer.edu.silentinstall");
             intent4.putExtra("path",path);
             context.sendBroadcast(intent4);
-
+        }else if(MMDM==T11){
+            SupiImpl.InstallApp(path);
         }
     }
     public void killApplicationProcess(ArrayList<String> notkill){
@@ -508,8 +524,8 @@ public class HackMdm extends Object {
                         else if(MMDM==Lenovo_Mia&&!context.getPackageName().equals(packageInfo.packageName)&&!notkill.contains(packageInfo.packageName)){
                             lenovo.killApplicationProcess(packageInfo.packageName);
 
-                        }else if(MMDM==Lenovo_Mia&&!context.getPackageName().equals(packageInfo.packageName)&&!notkill.contains(packageInfo.packageName)){
-                            am.killBackgroundProcesses(packageInfo.packageName);
+                        }else if(MMDM==T11&&!context.getPackageName().equals(packageInfo.packageName)&&!notkill.contains(packageInfo.packageName)){
+                            SupiImpl.killapp(packageInfo.packageName);
                         }
                     }
                 }
@@ -557,6 +573,8 @@ public class HackMdm extends Object {
                         context.sendBroadcast(intent4);
                     }
                 }
+            }else if(MMDM==T11){
+                SupiImpl.iceapp(icename,isice);
             }
 
         }
