@@ -32,7 +32,18 @@ public class Lenovomethod {
 
     private final static String launcher="com.android.launcher3";
     private final static String execmdsvc="com.drupe.swd.launcher.huoshan.mdm.service.ExecuteCmdService";
-
+    public boolean isSystemApplication(){
+        PackageManager mPackageManager = context.getPackageManager();
+        try {
+            final PackageInfo packageInfo = mPackageManager.getPackageInfo(context.getPackageName(), PackageManager.GET_CONFIGURATIONS);
+            if((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM)!=0){
+                return true;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public Lenovomethod(Context context){
         this.context=context;
         MMDM=new MDM(context).MDM();
@@ -277,6 +288,9 @@ public class Lenovomethod {
                     list4.add(packageInfo.packageName+miahash());
                 }
             }//获取包名
+            if(isSystemApplication()){
+                list4.add(context.getPackageName()+miahash());
+            }
             csdkManager.removeInstallPackageWhiteList(csdkManager.getInstallPackageWhiteList());
             csdkManager.addInstallPackageWhiteList(list4);
         }
@@ -292,6 +306,9 @@ public class Lenovomethod {
                     }
                     list4.add(packageInfo.packageName+miahash());
                 }
+            }
+            if(isSystemApplication()){
+                list4.add(context.getPackageName()+miahash());
             }
             miaMdmPolicyManager.removeInstallPackages(miaMdmPolicyManager.getInstallPackageWhiteList());
             miaMdmPolicyManager.addInstallPackages(list4);
