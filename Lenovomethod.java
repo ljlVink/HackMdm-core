@@ -66,7 +66,7 @@ public class Lenovomethod {
         }
     }
     public String getLenovo_version(){
-        return "20220625";
+        return "20220709";
     }
     public void initSecondHack(){
         if(MMDM==Lenovo_Csdk){
@@ -194,6 +194,7 @@ public class Lenovomethod {
         if(MMDM==Lenovo_Csdk){
             try{csdkManager.setHomeKey(false);}catch (Exception e){}
             try{csdkManager.SetEnable(true);}catch (Exception e){}
+            //if(enablelspForBJSZ==1)
             try{csdkManager.setPackageEnabled(launcher, true); } catch (Exception e) { }
             try{csdkManager.hideHomeSoftKey(false);}catch (Exception e){}
             try{csdkManager.disableBluetooth(true);}catch (Exception e){}
@@ -202,6 +203,7 @@ public class Lenovomethod {
         if(MMDM==Lenovo_Mia){
             try{miaMdmPolicyManager.setHomeKey(true);}catch (Exception e){}
             try{miaMdmPolicyManager.urlSetEnable(true);}catch (Exception e){}
+            //if(enablelspForBJSZ==1)
             try{miaMdmPolicyManager.controlApp(launcher,false); } catch (Exception e){ }
             try{miaMdmPolicyManager.urlSetEnable(true);}catch (Exception e){}
             try{miaMdmPolicyManager.setHomeKey(false);}catch (Exception e){}
