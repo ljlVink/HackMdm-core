@@ -11,10 +11,11 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.widget.Toast;
 
 import com.huosoft.wisdomclass.linspirerdemo.AR;
+import com.ljlVink.Activity.AppManageActivity;
 import com.ljlVink.MDM;
+import com.ljlVink.ToastUtils.Toast;
 import com.ljlVink.core.DataUtils;
 
 import java.util.ArrayList;
@@ -25,8 +26,8 @@ public class Lenovomethod {
     private int MMDM=-1;
     int Lenovo_Mia=3;
     int Lenovo_Csdk=2;
-    protected static CSDKManager csdkManager;
-    protected static MiaMdmPolicyManager miaMdmPolicyManager;
+    private CSDKManager csdkManager;
+    private MiaMdmPolicyManager miaMdmPolicyManager;
     ComponentName testDeviceAdmin;
     DevicePolicyManager dpm;
 
@@ -66,7 +67,7 @@ public class Lenovomethod {
         }
     }
     public String getLenovo_version(){
-        return "20220709";
+        return "20220714";
     }
     public void initSecondHack(){
         if(MMDM==Lenovo_Csdk){
@@ -88,7 +89,9 @@ public class Lenovomethod {
             try{csdkManager.enableMassStorage(true);}catch(Exception e){ }
             try{csdkManager.setCurrentUsbMode(1);}catch (Exception e){}
             try{csdkManager.allowTFcard(true);}catch(Exception e){}
+            disablenotify(false);
             fix_csdk_component();
+
         }
         if(MMDM==Lenovo_Mia){
             try{
@@ -191,24 +194,39 @@ public class Lenovomethod {
 
     }
     public void backtolsp(){
+        int enablelspForBJSZ=DataUtils.readint(context,"bjsz_mode",0);
+        if(AppManageActivity.FindLspDemoPkgName(context,"assistlauncher").contains(DataUtils.readStringValue(context,"desktop_pkg",""))){
+            enablelspForBJSZ=1;
+        }else enablelspForBJSZ=0;
         if(MMDM==Lenovo_Csdk){
             try{csdkManager.setHomeKey(false);}catch (Exception e){}
             try{csdkManager.SetEnable(true);}catch (Exception e){}
-            //if(enablelspForBJSZ==1)
+            if(enablelspForBJSZ==0)
             try{csdkManager.setPackageEnabled(launcher, true); } catch (Exception e) { }
             try{csdkManager.hideHomeSoftKey(false);}catch (Exception e){}
             try{csdkManager.disableBluetooth(true);}catch (Exception e){}
             try{csdkManager.disableBluetoothShare(true);}catch (Exception e){}
+            if(enablelspForBJSZ==1){
+                try{
+                    csdkManager.setCustomLauncher(DataUtils.readStringValue(context,"desktop_pkg",""),"com.lspdemo.assistlauncher.MainActivity");
+                }catch ( Exception e){}
+            }
         }
         if(MMDM==Lenovo_Mia){
             try{miaMdmPolicyManager.setHomeKey(true);}catch (Exception e){}
             try{miaMdmPolicyManager.urlSetEnable(true);}catch (Exception e){}
-            //if(enablelspForBJSZ==1)
+            if(enablelspForBJSZ==0)
             try{miaMdmPolicyManager.controlApp(launcher,false); } catch (Exception e){ }
             try{miaMdmPolicyManager.urlSetEnable(true);}catch (Exception e){}
             try{miaMdmPolicyManager.setHomeKey(false);}catch (Exception e){}
             try{miaMdmPolicyManager.allowBluetooth(false);}catch (Exception e){}
             try{miaMdmPolicyManager.allowBluetoothDataTransfer(false);}catch (Exception e){}
+            if(enablelspForBJSZ==1){
+                try{
+                    miaMdmPolicyManager.setCustomLauncher(DataUtils.readStringValue(context,"desktop_pkg",""));
+                }catch ( Exception e){}
+            }
+
         }
 
     }
@@ -248,7 +266,7 @@ public class Lenovomethod {
                     List<PackageInfo> packages = pm.getInstalledPackages(0);
                     for (PackageInfo packageInfo : packages) {
                         if(dpm.isDeviceOwnerApp(packageInfo.packageName)){
-                            Toast.makeText(context,"抓到了:"+packageInfo.packageName+",准备解除owner",Toast.LENGTH_SHORT).show();
+                            Toast.ShowInfo(context,"抓到了:"+packageInfo.packageName+",准备解除owner");
                             try {
                                 csdkManager.removeDeviceOwner(packageInfo.packageName);
                             }catch (Exception e){}
@@ -257,14 +275,14 @@ public class Lenovomethod {
                     try {
                         csdkManager.setDeviceOwner(context.getPackageName() + "/com.huosoft.wisdomclass.linspirerdemo.AR");
                         if(!isDeviceOwnerActive()){
-                            Toast.makeText(context,"自动激活失败 请检查",Toast.LENGTH_SHORT).show();
+                            Toast.ShowErr(context,"自动激活失败 请检查");
                         }
                     }catch (Exception e){
                     }
                     restartApplication();
                 }
                 else {
-                    Toast.makeText(context,"自动注入成功",Toast.LENGTH_SHORT).show();
+                    Toast.ShowSuccess(context,"自动注入成功");
                 }
             }
 

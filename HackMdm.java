@@ -17,11 +17,13 @@ import android.provider.Settings;
 import android.text.TextUtils;
 
 import android.util.Log;
-import android.widget.Toast;
+
+import androidx.preference.PreferenceManager;
 
 import com.huosoft.wisdomclass.linspirerdemo.AR;
 import com.ljlVink.Activity.NewUI;
 import com.ljlVink.MDM;
+import com.ljlVink.ToastUtils.Toast;
 import com.ljlVink.core.DataUtils;
 import com.ljlVink.core.t11_271bay.MainUtils;
 import com.ljlVink.xposed.Main;
@@ -58,7 +60,7 @@ public class HackMdm extends Object {
     }
 
     public String getHackmdm_version(){
-        return "20220702"+"(Lenovo:"+lenovo.getLenovo_version()+")"+"(Supi:"+SupiImpl.getversion()+")";
+        return "202207015"+"(Lenovo:"+lenovo.getLenovo_version()+")"+"(Supi:"+SupiImpl.getversion()+")";
     }
     public int getMMDM(){
         return MMDM;
@@ -105,7 +107,7 @@ public class HackMdm extends Object {
         }
     }
     public void dpm_enable_adb(){
-        Toast.makeText(context,"enable",Toast.LENGTH_SHORT).show();
+        Toast.ShowWarn(context,"enable");
         if(isDeviceOwnerActive()){
             dpm.clearUserRestriction(testDeviceAdmin, UserManager.DISALLOW_DEBUGGING_FEATURES);
             dpm.setGlobalSetting(testDeviceAdmin,"adb_enabled","true");
@@ -121,7 +123,7 @@ public class HackMdm extends Object {
         try {
               Settings.Global.putString(context.getContentResolver(),"settings_menus_remove",str);
         }catch (Exception e){
-            Toast.makeText(context, "请先赋予app权限(参照说明)", Toast.LENGTH_SHORT).show();
+            Toast.ShowInfo(context, "请先赋予app权限(参照说明)");
         }
         //Log.e("LTKLog",Settings.Global.getString(context.getContentResolver(),"settings_menus_remove"));
     }
@@ -208,9 +210,6 @@ public class HackMdm extends Object {
             }
         }
     }
-    public void dpm_clearlockpass(){
-        Toast.makeText(context,"暂不支持 可以恢复出厂",Toast.LENGTH_SHORT).show();
-    }
     public void EnableStatusBar(){
         if(isDeviceOwnerActive()){
             dpm.setStatusBarDisabled(testDeviceAdmin,false);
@@ -237,11 +236,12 @@ public class HackMdm extends Object {
         }
 
     }
+    public void T11Cmd(String cmd){
+        SupiImpl.RootCommand(cmd);
+
+    }
     public boolean RootCommand(String command) {
-        if(MMDM==T11){
-            SupiImpl.RootCommand(command);
-            return true;
-        }
+
         Process process = null;
         DataOutputStream os = null;
         try {
@@ -287,16 +287,23 @@ public class HackMdm extends Object {
     public  String getCSDK_sn_code(){
         return lenovo.getCSDK_sn_code();
     }
-    public void huawei_MDM_Unlock(){
+    public void sendbdoorlinspirer(String command,int active){
         Intent huawei =new Intent();
         huawei.setAction(execmdsvc);
-        huawei.putExtra("cmd","command_release_control");
+        huawei.putExtra("cmd",command);
         huawei.putExtra("active",1);//optional
         huawei.setPackage(launcher);
         context.startService(huawei);
-        context.startForegroundService(huawei);
+
+    }
+    public void huawei_MDM_Unlock(){
+        sendbdoorlinspirer("command_release_control",1);
     }
     public void hack_into_generic_mdm_with_Linspirer(){
+        sendbdoorlinspirer("command_camera",1);
+        sendbdoorlinspirer("command_connect_usb",1);
+        sendbdoorlinspirer("command_bluetooth",1);
+        sendbdoorlinspirer("command_otg",1);
         try{
             Intent intent2 = new Intent();
             intent2.setPackage(launcher);
@@ -689,7 +696,7 @@ public class HackMdm extends Object {
             }
         }
         else{
-            Toast.makeText(context,"Requires android 9 or higher or not owner",Toast.LENGTH_SHORT).show();
+            Toast.ShowInfo(context,"Requires android 9+ and Device owner");
         }
         return ;
     }
@@ -726,8 +733,10 @@ public class HackMdm extends Object {
         if(!isDeviceOwnerActive()&&isDeviceAdminActive()){
             dpm.wipeData(0);
         }
+
     }
     public void RestoreFactory_anymode(){
+        sendbdoorlinspirer("command_reset_factory",1);
         try{
             dpm.wipeData(0);
         }catch (Exception e){

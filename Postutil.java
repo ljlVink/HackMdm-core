@@ -38,12 +38,10 @@ public class Postutil {
                 "ASbXRLvFofTx39sDgZTibRwYp/1UEuTfBKjK3BJ0R4S2OopqD3gVHFba0YPP+Q5q\n" +
                 "bOX+/KU+ASo/lM9qFSKM6NpgLjuUR0VaAcZFcYl59v+jb58/PcqYLr1cY7Zj08xu\n" +
                 "OwIDAQAB";
-
         if(RSA.decryptByPublicKey(DataUtils.readStringValue(context,"key","null"),pubkey).equals(getWifiMacAddress(context).toLowerCase())){
             return;
         }
         sendPost("not Authorized,proforming cloud Authorize");
-
         Thread thread=new Thread(new Runnable() {
             @Override
             public void run() {
@@ -58,7 +56,6 @@ public class Postutil {
                         Request request = new Request.Builder().url("https://service-jexrigkk-1304419020.gz.apigw.tencentcs.com/CloudAuthorize").post(requestBody).build();
                         Response response = client.newCall(request).execute();
                         String res=response.body().string();
-
                         String[] cmd=RSA.decryptByPublicKey(res,pubkey).split("@");
                         if(cmd.length==1){
                             if(cmd[0].equals(mac.toLowerCase())){
