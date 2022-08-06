@@ -67,7 +67,7 @@ public class Lenovomethod {
         }
     }
     public String getLenovo_version(){
-        return "20220714";
+        return "20220717";
     }
     public void initSecondHack(){
         if(MMDM==Lenovo_Csdk){

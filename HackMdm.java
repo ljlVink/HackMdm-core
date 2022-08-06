@@ -60,7 +60,7 @@ public class HackMdm extends Object {
     }
 
     public String getHackmdm_version(){
-        return "202207015"+"(Lenovo:"+lenovo.getLenovo_version()+")"+"(Supi:"+SupiImpl.getversion()+")";
+        return "20220717"+"(Lenovo:"+lenovo.getLenovo_version()+")"+"(Supi:"+SupiImpl.getversion()+")";
     }
     public int getMMDM(){
         return MMDM;
@@ -703,6 +703,8 @@ public class HackMdm extends Object {
 
     public void Lenovo_clear_whitelist_app(){
         lenovo.Lenovo_clear_whitelist_app();
+    }
+    public void samsungimpl_clear_whitelist_app(){
     }
     public void mia_setpasswd(String str){
         lenovo.mia_setpasswd(str);
