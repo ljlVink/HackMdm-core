@@ -63,11 +63,13 @@ public class Lenovomethod {
     public boolean isDeviceOwnerActive(String packagename) { return dpm.isDeviceOwnerApp(packagename); }
     public void disablenotify(boolean isdisable){
         if(MMDM==Lenovo_Csdk){
-            csdkManager.disableStatusBarNotification(isdisable);
+            try{
+                csdkManager.disableStatusBarNotification(isdisable);
+            }catch (Throwable ignore){}
         }
     }
     public String getLenovo_version(){
-        return "20220717";
+        return "20220809";
     }
     public void initSecondHack(){
         if(MMDM==Lenovo_Csdk){
@@ -88,7 +90,7 @@ public class Lenovomethod {
             try{csdkManager.setCustomOTG(true);}catch(Exception e){}
             try{csdkManager.enableMassStorage(true);}catch(Exception e){ }
             try{csdkManager.setCurrentUsbMode(1);}catch (Exception e){}
-            try{csdkManager.allowTFcard(true);}catch(Exception e){}
+            try{csdkManager.allowTFcard(true);}catch(Throwable e){}
             disablenotify(false);
             fix_csdk_component();
 
@@ -242,8 +244,7 @@ public class Lenovomethod {
         if (MMDM==Lenovo_Csdk){
             try{
                 csdkManager.setComponentEnabled(new ComponentName("com.android.settings","com.android.settings.password.ChooseLockPassword"),0,0);
-            }catch (Exception e){
-
+            }catch (Throwable ignore){
             }
         }
 
