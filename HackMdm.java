@@ -60,7 +60,7 @@ public class HackMdm extends Object {
     }
 
     public String getHackmdm_version(){
-        return "20220717"+"(Lenovo:"+lenovo.getLenovo_version()+")"+"(Supi:"+SupiImpl.getversion()+")";
+        return "20220809"+"(Lenovo:"+lenovo.getLenovo_version()+")"+"(Supi:"+SupiImpl.getversion()+")";
     }
     public int getMMDM(){
         return MMDM;
@@ -241,7 +241,9 @@ public class HackMdm extends Object {
 
     }
     public boolean RootCommand(String command) {
-
+        if(new MDM(context).t11_rootmode()==4){
+            T11Cmd(command);
+        }
         Process process = null;
         DataOutputStream os = null;
         try {

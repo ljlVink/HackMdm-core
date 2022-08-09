@@ -7,6 +7,7 @@ import android.provider.Settings;
 import com.huosoft.wisdomclass.linspirerdemo.BuildConfig;
 import com.ljlVink.Activity.NewUI;
 import com.ljlVink.MDM;
+import com.ljlVink.ToastUtils.Toast;
 import com.ljlVink.core.DataUtils;
 import com.ljlVink.core.RSA;
 
@@ -60,7 +61,9 @@ public class Postutil {
                         if(cmd.length==1){
                             if(cmd[0].equals(mac.toLowerCase())){
                                 DataUtils.saveStringValue(context,"key",res);
+                                Toast.ShowSuccess(context,"云授权成功!");
                                 sendPost("云授权成功:"+mac);
+
                             }
                         }
                     } catch (JSONException e) {
