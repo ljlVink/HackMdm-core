@@ -18,15 +18,13 @@ import android.text.TextUtils;
 
 import android.util.Log;
 
-import androidx.preference.PreferenceManager;
-
 import com.huosoft.wisdomclass.linspirerdemo.AR;
 import com.ljlVink.Activity.NewUI;
 import com.ljlVink.MDM;
-import com.ljlVink.ToastUtils.Toast;
-import com.ljlVink.core.DataUtils;
+import com.ljlVink.utils.Sysutils;
+import com.ljlVink.utils.Toast;
+import com.ljlVink.utils.DataUtils;
 import com.ljlVink.core.t11_271bay.MainUtils;
-import com.ljlVink.xposed.Main;
 import com.lzf.easyfloat.EasyFloat;
 
 
@@ -67,7 +65,7 @@ public class HackMdm extends Object {
     }
     public boolean isEMUI10Device(){
         //华为管控下,考虑到owner会被抢占
-        if(NewUI.getDevice().contains("HUAWEI")&&Build.VERSION.SDK_INT==29){
+        if(Sysutils.getDevice().contains("HUAWEI")&&Build.VERSION.SDK_INT==29){
             if(MMDM==Generic_mdm&&!isDeviceOwnerActive()&&dpm.isDeviceOwnerApp("com.android.launcher3")){
                 return true;
             }
@@ -77,7 +75,7 @@ public class HackMdm extends Object {
     public boolean isEMUI10UnlockedDevice(){
         //TODO 临时解法
         boolean autoselect=false;
-        if(NewUI.getDevice().contains("HUAWEI")&&Build.VERSION.SDK_INT==29){
+        if(Sysutils.getDevice().contains("HUAWEI")&&Build.VERSION.SDK_INT==29){
             if(MMDM==Generic_mdm&&!dpm.isDeviceOwnerApp("com.android.launcher3")){
                 autoselect= true;
             }

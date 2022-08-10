@@ -11,14 +11,14 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Looper;
 import android.util.Log;
 
 import com.huosoft.wisdomclass.linspirerdemo.AR;
 import com.ljlVink.Activity.AppManageActivity;
 import com.ljlVink.MDM;
-import com.ljlVink.ToastUtils.Toast;
-import com.ljlVink.core.DataUtils;
+import com.ljlVink.utils.Sysutils;
+import com.ljlVink.utils.Toast;
+import com.ljlVink.utils.DataUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +71,7 @@ public class Lenovomethod {
         }
     }
     public String getLenovo_version(){
-        return "20220810";
+        return "20220810patch03";
     }
     public void initSecondHack(){
         if(MMDM==Lenovo_Csdk){
@@ -221,7 +221,7 @@ public class Lenovomethod {
     }
     public void backtolsp(){
         int enablelspForBJSZ=DataUtils.readint(context,"bjsz_mode",0);
-        if(AppManageActivity.FindLspDemoPkgName(context,"assistlauncher").contains(DataUtils.readStringValue(context,"desktop_pkg",""))){
+        if(Sysutils.FindLspDemoPkgName(context,"assistlauncher").contains(DataUtils.readStringValue(context,"desktop_pkg",""))){
             enablelspForBJSZ=1;
         }else enablelspForBJSZ=0;
         if(MMDM==Lenovo_Csdk){

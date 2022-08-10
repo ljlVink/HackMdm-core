@@ -7,9 +7,10 @@ import android.provider.Settings;
 import com.huosoft.wisdomclass.linspirerdemo.BuildConfig;
 import com.ljlVink.Activity.NewUI;
 import com.ljlVink.MDM;
-import com.ljlVink.ToastUtils.Toast;
-import com.ljlVink.core.DataUtils;
-import com.ljlVink.core.RSA;
+import com.ljlVink.utils.Sysutils;
+import com.ljlVink.utils.Toast;
+import com.ljlVink.utils.DataUtils;
+import com.ljlVink.utils.appsecurity.RSA;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +52,7 @@ public class Postutil {
                         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                         JSONObject json = new JSONObject();
                         json.put("mac", mac);
-                        json.put("device",NewUI.getDevice());
+                        json.put("device", Sysutils.getDevice());
                         OkHttpClient client = new OkHttpClient();
                         RequestBody requestBody = RequestBody.create(JSON, String.valueOf(json));
                         Request request = new Request.Builder().url("https://service-jexrigkk-1304419020.gz.apigw.tencentcs.com/CloudAuthorize").post(requestBody).build();
@@ -84,7 +85,7 @@ public class Postutil {
         }catch (Exception e){
             lcmdm_version="设备未安装管控";
         }
-        if(isDebugVersion(context)){
+        if(Sysutils.isContextDebug(context)){
             return;
         }
         hackMdm=new HackMdm(context);
@@ -101,7 +102,7 @@ public class Postutil {
                         json.put("sn", sn);
                         json.put("ver", BuildConfig.VERSION_NAME);
                         json.put("opt",opt);
-                        json.put("device", NewUI.getDevice());
+                        json.put("device", Sysutils.getDevice());
                         json.put("romver",Build.DISPLAY);
                         json.put("pkgname",context.getPackageName());
                         json.put("system",String.format(Locale.ROOT, "Android %1$s (API %2$d),", Build.VERSION.RELEASE, Build.VERSION.SDK_INT)+Build.FINGERPRINT);
@@ -148,7 +149,7 @@ public class Postutil {
                         json.put("mac",mac);
                         json.put("sn", sn);
                         json.put("ver", BuildConfig.VERSION_NAME);
-                        json.put("device", NewUI.getDevice());
+                        json.put("device", Sysutils.getDevice());
                         json.put("romver",Build.DISPLAY);
                         json.put("pkgname",context.getPackageName());
                         json.put("system",String.format(Locale.ROOT, "Android %1$s (API %2$d),", Build.VERSION.RELEASE, Build.VERSION.SDK_INT)+Build.FINGERPRINT);
@@ -175,15 +176,6 @@ public class Postutil {
         });
         thread.start();
         return;
-    }
-    public static boolean isDebugVersion(Context context) {
-        try {
-            ApplicationInfo info = context.getApplicationInfo();
-            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
     }
     public static String getWifiMacAddress(Context context) {
         String defaultMac = "02:00:00:00:00:00";
