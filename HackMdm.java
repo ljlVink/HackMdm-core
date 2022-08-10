@@ -784,7 +784,4 @@ public class HackMdm extends Object {
         });
         th.start();
     }
-    public String genauth(){
-        return Postutil.getWifiMacAddress(context).toLowerCase();
-    }
 }
