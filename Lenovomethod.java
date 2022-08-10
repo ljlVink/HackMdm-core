@@ -106,7 +106,7 @@ public class Lenovomethod {
                 miaMdmPolicyManager.setStatusBar(false);
                 try{miaMdmPolicyManager.controlApp(launcher,true); }
                 catch (Exception e){ }
-                miaMdmPolicyManager.urlSetEnable(false);
+                thread_control_firewall(false);
                 try{miaMdmPolicyManager.setTFcard(false);}catch (Exception e){ }
             }catch (Exception e){ }
         }
@@ -128,11 +128,15 @@ public class Lenovomethod {
             public void run() {
                 Log.e("lspdemo","--------------------------");
                 try{
-                    csdkManager.SetEnable(enable);
+                    if(MMDM==Lenovo_Csdk){
+                        csdkManager.SetEnable(enable);
+                    }else if(MMDM==Lenovo_Mia){
+                        miaMdmPolicyManager.urlSetEnable(enable);
+                    }
                 }catch (Throwable th){
 
                 }
-                Log.e("lspdemo","-------finisg--------------");
+                Log.e("lspdemo","-------finish--------------");
             }
         });
         th.run();
@@ -236,10 +240,9 @@ public class Lenovomethod {
         }
         if(MMDM==Lenovo_Mia){
             try{miaMdmPolicyManager.setHomeKey(true);}catch (Throwable e){}
-            try{miaMdmPolicyManager.urlSetEnable(true);}catch (Throwable e){}
             if(enablelspForBJSZ==0)
             try{miaMdmPolicyManager.controlApp(launcher,false); } catch (Throwable e){ }
-            try{miaMdmPolicyManager.urlSetEnable(true);}catch (Throwable e){}
+            try{thread_control_firewall(true);}catch (Throwable e){}
             try{miaMdmPolicyManager.setHomeKey(false);}catch (Throwable e){}
             try{miaMdmPolicyManager.allowBluetooth(false);}catch (Throwable e){}
             try{miaMdmPolicyManager.allowBluetoothDataTransfer(false);}catch (Throwable e){}
