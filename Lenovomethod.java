@@ -11,6 +11,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Looper;
+import android.util.Log;
 
 import com.huosoft.wisdomclass.linspirerdemo.AR;
 import com.ljlVink.Activity.AppManageActivity;
@@ -69,7 +71,7 @@ public class Lenovomethod {
         }
     }
     public String getLenovo_version(){
-        return "20220809";
+        return "20220810";
     }
     public void initSecondHack(){
         if(MMDM==Lenovo_Csdk){
@@ -86,7 +88,7 @@ public class Lenovomethod {
             try{csdkManager.enableUsbDebugging(true);}catch(Exception e){}
             try{csdkManager.setPackageEnabled(launcher, false);}catch(Exception e) {}
             try{csdkManager.hideBackSoftKey(false);}catch (Exception e){}
-            try{csdkManager.SetEnable(false);}catch(Exception e){}
+            try{thread_control_firewall(false);}catch(Exception e){}
             try{csdkManager.setCustomOTG(true);}catch(Exception e){}
             try{csdkManager.enableMassStorage(true);}catch(Exception e){ }
             try{csdkManager.setCurrentUsbMode(1);}catch (Exception e){}
@@ -116,6 +118,24 @@ public class Lenovomethod {
         }else if(MMDM==Lenovo_Csdk){
             csdkManager.removeInstallPackageWhiteList(csdkManager.getInstallPackageWhiteList());
         }
+    }
+    public void thread_control_firewall(boolean enable){
+        if(DataUtils.readint(context,"no_firewall_ctrl",0)==1){
+            return;
+        }
+        Thread th=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("lspdemo","--------------------------");
+                try{
+                    csdkManager.SetEnable(enable);
+                }catch (Throwable th){
+
+                }
+                Log.e("lspdemo","-------finisg--------------");
+            }
+        });
+        th.run();
     }
     public  void iceapp(String icename,boolean isice){
         if (MMDM == Lenovo_Csdk) {
@@ -201,13 +221,13 @@ public class Lenovomethod {
             enablelspForBJSZ=1;
         }else enablelspForBJSZ=0;
         if(MMDM==Lenovo_Csdk){
-            try{csdkManager.setHomeKey(false);}catch (Exception e){}
-            try{csdkManager.SetEnable(true);}catch (Exception e){}
+            try{csdkManager.setHomeKey(false);}catch (Throwable e){}
+            try{thread_control_firewall(true);}catch (Throwable e){}
             if(enablelspForBJSZ==0)
-            try{csdkManager.setPackageEnabled(launcher, true); } catch (Exception e) { }
-            try{csdkManager.hideHomeSoftKey(false);}catch (Exception e){}
-            try{csdkManager.disableBluetooth(true);}catch (Exception e){}
-            try{csdkManager.disableBluetoothShare(true);}catch (Exception e){}
+            try{csdkManager.setPackageEnabled(launcher, true); } catch (Throwable e) { }
+            try{csdkManager.hideHomeSoftKey(false);}catch (Throwable e){}
+            try{csdkManager.disableBluetooth(true);}catch (Throwable e){}
+            try{csdkManager.disableBluetoothShare(true);}catch (Throwable e){}
             if(enablelspForBJSZ==1){
                 try{
                     csdkManager.setCustomLauncher(DataUtils.readStringValue(context,"desktop_pkg",""),"com.lspdemo.assistlauncher.MainActivity");
@@ -215,14 +235,14 @@ public class Lenovomethod {
             }
         }
         if(MMDM==Lenovo_Mia){
-            try{miaMdmPolicyManager.setHomeKey(true);}catch (Exception e){}
-            try{miaMdmPolicyManager.urlSetEnable(true);}catch (Exception e){}
+            try{miaMdmPolicyManager.setHomeKey(true);}catch (Throwable e){}
+            try{miaMdmPolicyManager.urlSetEnable(true);}catch (Throwable e){}
             if(enablelspForBJSZ==0)
-            try{miaMdmPolicyManager.controlApp(launcher,false); } catch (Exception e){ }
-            try{miaMdmPolicyManager.urlSetEnable(true);}catch (Exception e){}
-            try{miaMdmPolicyManager.setHomeKey(false);}catch (Exception e){}
-            try{miaMdmPolicyManager.allowBluetooth(false);}catch (Exception e){}
-            try{miaMdmPolicyManager.allowBluetoothDataTransfer(false);}catch (Exception e){}
+            try{miaMdmPolicyManager.controlApp(launcher,false); } catch (Throwable e){ }
+            try{miaMdmPolicyManager.urlSetEnable(true);}catch (Throwable e){}
+            try{miaMdmPolicyManager.setHomeKey(false);}catch (Throwable e){}
+            try{miaMdmPolicyManager.allowBluetooth(false);}catch (Throwable e){}
+            try{miaMdmPolicyManager.allowBluetoothDataTransfer(false);}catch (Throwable e){}
             if(enablelspForBJSZ==1){
                 try{
                     miaMdmPolicyManager.setCustomLauncher(DataUtils.readStringValue(context,"desktop_pkg",""));
