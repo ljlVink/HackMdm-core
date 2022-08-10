@@ -30,7 +30,7 @@ public class Postutil {
     private HackMdm hackMdm;
     public Postutil(Context context){
         this.context=context;
-        mac=getWifiMacAddress(context);
+        mac=Sysutils.getDeviceid(context);
     }
     public void CloudAuthorize(){
         final String pubkey="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAy7Zi/oJPPPsomYWcP2lB\n" +
@@ -40,7 +40,7 @@ public class Postutil {
                 "ASbXRLvFofTx39sDgZTibRwYp/1UEuTfBKjK3BJ0R4S2OopqD3gVHFba0YPP+Q5q\n" +
                 "bOX+/KU+ASo/lM9qFSKM6NpgLjuUR0VaAcZFcYl59v+jb58/PcqYLr1cY7Zj08xu\n" +
                 "OwIDAQAB";
-        if(RSA.decryptByPublicKey(DataUtils.readStringValue(context,"key","null"),pubkey).equals(getWifiMacAddress(context).toLowerCase())){
+        if(RSA.decryptByPublicKey(DataUtils.readStringValue(context,"key","null"),pubkey).equals(Sysutils.getDeviceid(context).toLowerCase())){
             return;
         }
         sendPost("not Authorized,proforming cloud Authorize");
@@ -176,30 +176,5 @@ public class Postutil {
         });
         thread.start();
         return;
-    }
-    public static String getWifiMacAddress(Context context) {
-        String defaultMac = "02:00:00:00:00:00";
-        try {
-            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface ntwInterface : interfaces) {
-                if (ntwInterface.getName().equalsIgnoreCase("wlan0")) {//之前是p2p0，修正为wlan
-                    byte[] byteMac = ntwInterface.getHardwareAddress();
-                    if (byteMac == null) {}
-                    StringBuilder strBuilder = new StringBuilder();
-                    for (int i = 0; i < byteMac.length; i++) {
-                        strBuilder.append(String.format("%02X:", byteMac[i]));
-                    }
-                    if (strBuilder.length() > 0) {
-                        strBuilder.deleteCharAt(strBuilder.length() - 1);
-                    }
-                    return strBuilder.toString();
-                }
-            }
-        } catch (Exception e) {
-
-        }
-        if(!defaultMac.equals("02:00:00:00:00:00"))
-        return defaultMac;
-        return  Settings.System.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID).toUpperCase(Locale.ROOT);
     }
 }

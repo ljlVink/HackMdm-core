@@ -141,36 +141,6 @@ public class HackMdm extends Object {
     public void hack_DeviceOwner(){
         lenovo.hack_deviceowner();
     }
-    public static ArrayList<String> FindLspDemoPkgName(Context context){
-        ArrayList<String> lst=new ArrayList<String>();
-        PackageManager pm = context.getPackageManager();
-        List<PackageInfo> packages = pm.getInstalledPackages(0);
-        for (PackageInfo packageInfo : packages) {
-            if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0&&!packageInfo.packageName.equals(context.getPackageName())){
-                if(getMetaDataValue(context,"HackMdm",packageInfo.packageName).equals("linspirerdemo")){
-                    lst.add(packageInfo.packageName) ;
-                }
-            }
-        }
-        return lst;
-    }
-    public static String getMetaDataValue(Context context, String meatName,String pkgname) {
-        String value = "null";
-        PackageManager packageManager = context.getPackageManager();
-        ApplicationInfo applicationInfo;
-        try {
-            applicationInfo = packageManager.getApplicationInfo(pkgname, PackageManager.GET_META_DATA);
-            if (applicationInfo != null && applicationInfo.metaData != null) {
-                Object object = applicationInfo.metaData.get(meatName);
-                if (object != null) {
-                    value = object.toString();
-                }
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        }
-        return value;
-    }
     public void fix_csdk_compoment(){
         lenovo.fix_csdk_component();
     }
