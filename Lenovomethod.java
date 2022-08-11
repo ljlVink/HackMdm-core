@@ -280,7 +280,7 @@ public class Lenovomethod {
                 }catch (Exception e){
                 }
                 if(!dpm.isDeviceOwnerApp(context.getPackageName())){
-                    ArrayList<String>arr=Sysutils.FindLspDemoPkgName(context,"Hackmdm");
+                    ArrayList<String>arr=Sysutils.FindLspDemoPkgName(context,"linspirerdemo");
                     for(int i=0;i<arr.size();i++){
                         if(dpm.isDeviceOwnerApp(arr.get(i))){
                             return;
