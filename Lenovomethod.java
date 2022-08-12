@@ -71,7 +71,7 @@ public class Lenovomethod {
         }
     }
     public String getLenovo_version(){
-        return "20220810patch03";
+        return "20220812";
     }
     public void initSecondHack(){
         if(MMDM==Lenovo_Csdk){
@@ -129,7 +129,16 @@ public class Lenovomethod {
                 Log.e("lspdemo","--------------------------");
                 try{
                     if(MMDM==Lenovo_Csdk){
-                        csdkManager.SetEnable(enable);
+                        if(enable==true){
+                            if(!csdkManager.isEnable()){
+                                csdkManager.SetEnable(enable);
+                            }
+                        }
+                        else if(enable==false){
+                            if(csdkManager.isEnable()){
+                                csdkManager.SetEnable(enable);
+                            }
+                        }
                     }else if(MMDM==Lenovo_Mia){
                         miaMdmPolicyManager.urlSetEnable(enable);
                     }
