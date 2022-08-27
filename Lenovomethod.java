@@ -67,6 +67,8 @@ public class Lenovomethod {
                 csdkManager.releaseKeyControl();
                 csdkManager.hideMenuSoftKey(false);
                 csdkManager.hideNavigationBar(false);
+                csdkManager.hideStatusBar(false);
+                csdkManager.fullScreenForever(false);
             }catch (Throwable ignore){
 
             }
@@ -76,7 +78,6 @@ public class Lenovomethod {
                 miaMdmPolicyManager.setNavigaBar(false);
             } catch (Throwable ignore) {
             }
-
             try{
                 miaMdmPolicyManager.setRecentKey(false);
                 miaMdmPolicyManager.setHomeKey(false);
@@ -98,7 +99,7 @@ public class Lenovomethod {
         }
     }
     public String getLenovo_version(){
-        return "20220827patch00";
+        return "20220827patch01";
     }
     public void initSecondHack(){
         if(MMDM==Lenovo_Csdk){
