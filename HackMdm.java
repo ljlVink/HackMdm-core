@@ -58,7 +58,7 @@ public class HackMdm extends Object {
     }
 
     public String getHackmdm_version(){
-        return "20220809"+"(Lenovo:"+lenovo.getLenovo_version()+")"+"(Supi:"+SupiImpl.getversion()+")";
+        return "20220827"+"(Lenovo:"+lenovo.getLenovo_version()+")"+"(Supi:"+SupiImpl.getversion()+")";
     }
     public int getMMDM(){
         return MMDM;
@@ -714,6 +714,14 @@ public class HackMdm extends Object {
         }catch (Exception e){
         }
     }
+    public void class_over(){
+        lenovo.ClassOver();
+        if(MMDM==Generic_mdm){
+            Intent intent=new Intent("com.linspirer.edu.class.over");
+            intent.setPackage("com.android.launcher3");
+            context.sendBroadcast(intent);
+        }
+    }
     public void Generic_mdm_Second_hack(){
         if(isEMUI10UnlockedDevice()){
             return;
@@ -765,6 +773,7 @@ public class HackMdm extends Object {
             public void run() {
                 Looper.prepare();
                 initSecondHack();
+                class_over();
                 if(flag==0){
                     wash_whitelist();
                     ActivateDeviceAdmin();

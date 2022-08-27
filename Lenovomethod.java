@@ -60,9 +60,36 @@ public class Lenovomethod {
         dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
 
     }
-    public boolean isDeviceAdminActive(){ return dpm.isAdminActive(testDeviceAdmin); }
+    public void ClassOver(){
+        if(MMDM==Lenovo_Csdk){
+            try{
+                csdkManager.hideHomeSoftKey(false);
+                csdkManager.releaseKeyControl();
+                csdkManager.hideMenuSoftKey(false);
+                csdkManager.hideNavigationBar(false);
+            }catch (Throwable ignore){
+
+            }
+        }
+        else if(MMDM==Lenovo_Mia){
+            try {
+                miaMdmPolicyManager.setNavigaBar(false);
+            } catch (Throwable ignore) {
+            }
+
+            try{
+                miaMdmPolicyManager.setRecentKey(false);
+                miaMdmPolicyManager.setHomeKey(false);
+                miaMdmPolicyManager.setBackKey(false);
+                miaMdmPolicyManager.setVolumeupKey(false);
+                miaMdmPolicyManager.setVolumedownKey(false);
+                miaMdmPolicyManager.setPowerSingleClickKey(false);
+            }catch (Throwable ignore){
+
+            }
+        }
+    }
     public boolean isDeviceOwnerActive(){ return dpm.isDeviceOwnerApp(context.getPackageName()); }
-    public boolean isDeviceOwnerActive(String packagename) { return dpm.isDeviceOwnerApp(packagename); }
     public void disablenotify(boolean isdisable){
         if(MMDM==Lenovo_Csdk){
             try{
@@ -71,7 +98,7 @@ public class Lenovomethod {
         }
     }
     public String getLenovo_version(){
-        return "20220812";
+        return "20220827patch00";
     }
     public void initSecondHack(){
         if(MMDM==Lenovo_Csdk){
