@@ -1,4 +1,6 @@
 # hackmdm core
+
+
 这里是hackmdm主仓库
 
 如果需要贡献代码 先fork主程序并clone
@@ -13,3 +15,6 @@ git clone https://github.com/ljlVink/HackMdm-core.git
 
 提交时 hackmdm不审核 linspirerdemo要PR才可合并
 
+csdk和mia的jar包私聊我单发
+
+代码很乱很垃圾 凑合看吧

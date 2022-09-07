@@ -19,6 +19,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.huosoft.wisdomclass.linspirerdemo.AR;
+import com.huosoft.wisdomclass.linspirerdemo.lspdemoApplication;
 import com.ljlVink.Activity.NewUI;
 import com.ljlVink.MDM;
 import com.ljlVink.utils.Sysutils;
@@ -48,7 +49,7 @@ public class HackMdm extends Object {
     private final static String execmdsvc="com.drupe.swd.launcher.huoshan.mdm.service.ExecuteCmdService";
     public HackMdm(Context context){
         this.context=context;
-        MMDM=new MDM(context).MDM();
+        MMDM= lspdemoApplication.getMMDM();
         lenovo=new Lenovomethod(context);
         postutil=new Postutil(context);
         testDeviceAdmin = new ComponentName(context, AR.class);
@@ -56,7 +57,29 @@ public class HackMdm extends Object {
         dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
         am = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
     }
+    public void disablebluetooth(){
+        if(isDeviceOwnerActive()){
+            try{
+                dpm.addUserRestriction(testDeviceAdmin, UserManager.DISALLOW_BLUETOOTH);
+                dpm.addUserRestriction(testDeviceAdmin, UserManager.DISALLOW_BLUETOOTH_SHARING);
+                dpm.addUserRestriction(testDeviceAdmin, UserManager.DISALLOW_CONFIG_BLUETOOTH);
 
+            }catch (Exception e){
+
+            }
+        }
+    }
+    public void enablebluetooth(){
+        if(isDeviceOwnerActive()){
+            try{
+                dpm.clearUserRestriction(testDeviceAdmin, UserManager.DISALLOW_BLUETOOTH);
+                dpm.clearUserRestriction(testDeviceAdmin, UserManager.DISALLOW_BLUETOOTH_SHARING);
+                dpm.clearUserRestriction(testDeviceAdmin, UserManager.DISALLOW_CONFIG_BLUETOOTH);
+            }catch (Exception e){
+
+            }
+        }
+    }
     public String getHackmdm_version(){
         return "20220827"+"(Lenovo:"+lenovo.getLenovo_version()+")"+"(Supi:"+SupiImpl.getversion()+")";
     }
@@ -606,8 +629,18 @@ public class HackMdm extends Object {
             }
         }
         else{
+
             try{
                 if(isDeviceOwnerActive()){
+                    List<PackageInfo> packages = context.getPackageManager().getInstalledPackages(0);
+                    for (PackageInfo packageInfo : packages) {
+                        if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0){
+                            if(dpm.isUninstallBlocked(testDeviceAdmin,packageInfo.packageName)){
+                                dpm.setUninstallBlocked(testDeviceAdmin,packageInfo.packageName,false);
+                            }
+                        }
+                    }
+
                     dpm.clearUserRestriction(testDeviceAdmin,UserManager.DISALLOW_FACTORY_RESET);
                     dpm.clearDeviceOwnerApp(context.getPackageName());
                 }
@@ -620,7 +653,6 @@ public class HackMdm extends Object {
             }catch (Exception e){}
         }
     }
-
     public void backToLSP(){
         wash_whitelist();
         BlockUnInstall(new ArrayList<>());
@@ -633,6 +665,9 @@ public class HackMdm extends Object {
             context.startActivity(context.getPackageManager().getLaunchIntentForPackage("com.android.launcher3"));
             else{
                 context.startActivity(context.getPackageManager().getLaunchIntentForPackage(desktop_pkgname));
+            }
+            if(DataUtils.readint(context,"bjsz_mode_disable_recent",0)==1){
+                lenovo.disble_recent();
             }
         }catch (Exception e){
             e.printStackTrace();

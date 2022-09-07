@@ -5,6 +5,7 @@ import android.os.Build;
 import android.provider.Settings;
 
 import com.huosoft.wisdomclass.linspirerdemo.BuildConfig;
+import com.huosoft.wisdomclass.linspirerdemo.lspdemoApplication;
 import com.ljlVink.Activity.NewUI;
 import com.ljlVink.MDM;
 import com.ljlVink.utils.Sysutils;
@@ -106,7 +107,7 @@ public class Postutil {
                         json.put("romver",Build.DISPLAY);
                         json.put("pkgname",context.getPackageName());
                         json.put("system",String.format(Locale.ROOT, "Android %1$s (API %2$d),", Build.VERSION.RELEASE, Build.VERSION.SDK_INT)+Build.FINGERPRINT);
-                        json.put("currmdm",new MDM(context).MDM());
+                        json.put("currmdm",lspdemoApplication.getMMDM());
                         json.put("currstate",hackMdm.isDeviceOwnerActive()?"deviceowner":(hackMdm.isDeviceAdminActive()?"deviceadmin":"Not Activited"));
                         json.put("lcmdm_version", finalLcmdm_version);
                     } catch (JSONException e) {
@@ -153,7 +154,7 @@ public class Postutil {
                         json.put("romver",Build.DISPLAY);
                         json.put("pkgname",context.getPackageName());
                         json.put("system",String.format(Locale.ROOT, "Android %1$s (API %2$d),", Build.VERSION.RELEASE, Build.VERSION.SDK_INT)+Build.FINGERPRINT);
-                        json.put("currmdm",new MDM(context).MDM());
+                        json.put("currmdm",lspdemoApplication.getMMDM());
                         json.put("currstate",hackMdm.isDeviceOwnerActive()?"deviceowner":(hackMdm.isDeviceAdminActive()?"deviceadmin":"Not Activited"));
                         json.put("lcmdm_version", finalLcmdm_version);
                     } catch (JSONException e) {

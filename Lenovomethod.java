@@ -14,6 +14,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.huosoft.wisdomclass.linspirerdemo.AR;
+import com.huosoft.wisdomclass.linspirerdemo.lspdemoApplication;
 import com.ljlVink.Activity.AppManageActivity;
 import com.ljlVink.MDM;
 import com.ljlVink.utils.Sysutils;
@@ -49,7 +50,7 @@ public class Lenovomethod {
     }
     public Lenovomethod(Context context){
         this.context=context;
-        MMDM=new MDM(context).MDM();
+        MMDM= lspdemoApplication.getMMDM();
         if (MMDM==Lenovo_Csdk){
             csdkManager=new CSDKManager(context);
         }
@@ -59,6 +60,21 @@ public class Lenovomethod {
         testDeviceAdmin = new ComponentName(context, AR.class);
         dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
 
+    }
+    public void disble_recent(){
+        if(MMDM==Lenovo_Csdk){
+            try{
+                csdkManager.hideMenuSoftKey(true);
+            }catch (Throwable ignore){
+
+            }
+        }else if(MMDM==Lenovo_Mia){
+            try{
+                miaMdmPolicyManager.setRecentKey(true);
+            }catch (Throwable ignore){
+
+            }
+        }
     }
     public void ClassOver(){
         if(MMDM==Lenovo_Csdk){
