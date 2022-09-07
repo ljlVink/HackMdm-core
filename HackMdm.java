@@ -20,12 +20,11 @@ import android.util.Log;
 
 import com.huosoft.wisdomclass.linspirerdemo.AR;
 import com.huosoft.wisdomclass.linspirerdemo.lspdemoApplication;
-import com.ljlVink.Activity.NewUI;
 import com.ljlVink.MDM;
 import com.ljlVink.utils.Sysutils;
 import com.ljlVink.utils.Toast;
 import com.ljlVink.utils.DataUtils;
-import com.ljlVink.core.t11_271bay.MainUtils;
+import com.ljlVink.core.core.t11_271bay.MainUtils;
 import com.lzf.easyfloat.EasyFloat;
 
 
