@@ -11,57 +11,50 @@ import com.ljlVink.utils.Toast;
 
 public class MainUtils {
     private Context context;
-    private IUidSystemService iUidSystemService;
     public MainUtils(Context context){
         this.context=context;
     }
     public String getversion(){
-        return "不可用";
+        return "20220909";
     }
     public void InitHack(){
-        if(iUidSystemService==null){
-            Intent intent = new Intent("com.tensafe.app.onerun.uidsystem_service");
-            intent.setPackage("com.tensafe.app.onerun");
-            try{
-                context.bindService(intent, new ServiceConnection() {
-                    @Override
-                    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                        iUidSystemService = IUidSystemService.Stub.asInterface(iBinder);
-                        try{
-                            iUidSystemService.InnerEnableSdCard();
-                            iUidSystemService.InnerEnableUsbState();
-                            iUidSystemService.InnerEnableStatusBarAndHomeRecent();
-                            iUidSystemService.InnerDebugMode(true);
-                        }catch (RemoteException e){
-                        }
-                    }
-                    @Override public void onServiceDisconnected(ComponentName componentName){}
-                },Context.BIND_AUTO_CREATE);
+        //开网
+        RootCommand("sh /system/tshook/network.sh");
+        RootCommand("iptables -X");
 
-            }catch (Throwable th){
-                Toast.ShowErr(context,"onerun服务绑定异常");
-            }
-        }
+        //控制妞
+        statusbar_mode("none");
+        //adb mtp
+        RootCommand("setprop persist.sys.usb.config adb,mtp");
+
+        sdcardmode(false);
     }
-
-    public void iceapp(String pkgname,boolean isice){
-        Intent intent = new Intent("com.tensafe.app.onerun.uidsystem_service");
+    /**
+     * mode分三种 all back none
+     * */
+    public void statusbar_mode(String mode){
+        Intent intent=new Intent("com.tensafe.statusbar.setmode");
         intent.setPackage("com.tensafe.app.onerun");
-        try{
-            context.bindService(intent, new ServiceConnection() {
-                @Override
-                public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                    iUidSystemService = IUidSystemService.Stub.asInterface(iBinder);
-                    try{
-                        iUidSystemService.InnerDisablePackage(pkgname,isice);
-                    }catch (RemoteException e){
-                    }
-                }
-                @Override public void onServiceDisconnected(ComponentName componentName){}
-            },Context.BIND_AUTO_CREATE);
+        intent.putExtra("mode",mode);
+        context.sendBroadcast(intent);
+    }
+    public void sdcardmode(boolean disable){
+        Intent intent=new Intent("com.tensafe.sdcard");
+        intent.setPackage("com.tensafe.app.onerun");
+        intent.putExtra("disable",disable);
+        context.sendBroadcast(intent);
 
-        }catch (Throwable th){
-            Toast.ShowErr(context,"onerun服务绑定异常");
+    }
+    public void disable_safectrlmn(){
+        RootCommand("setprop persist.tensafe.device tensafe-dbg");
+    }public void enable_safectrlmn(){
+        RootCommand("setprop persist.tensafe.device lspdemo");
+    }
+    public void iceapp(String pkgname,boolean isice){
+        if(isice){
+            RootCommand("pm disable "+pkgname);
+        }else {
+            RootCommand("pm enable "+pkgname);
         }
     }
     public void InstallApp(String abspath){
@@ -78,25 +71,7 @@ public class MainUtils {
         context.sendBroadcast(intent);
     }
     public void killapp(String pkgname){
-        Intent intent = new Intent("com.tensafe.app.onerun.uidsystem_service");
-        intent.setPackage("com.tensafe.app.onerun");
-        try{
-            context.bindService(intent, new ServiceConnection() {
-                @Override
-                public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                    iUidSystemService = IUidSystemService.Stub.asInterface(iBinder);
-                    try{
-                        iUidSystemService.InnerForceStopPackage(pkgname);
-                    }catch (RemoteException e){
-                    }
-                }
-                @Override public void onServiceDisconnected(ComponentName componentName){}
-            },Context.BIND_AUTO_CREATE);
-
-        }catch (Throwable th){
-            Toast.ShowErr(context,"onerun服务绑定异常");
-        }
-
+        RootCommand("am force-stop "+pkgname);
     }
     public void FirstHack(){
         InitHack();

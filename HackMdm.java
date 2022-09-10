@@ -80,7 +80,7 @@ public class HackMdm extends Object {
         }
     }
     public String getHackmdm_version(){
-        return "20220827"+"(Lenovo:"+lenovo.getLenovo_version()+")"+"(Supi:"+SupiImpl.getversion()+")";
+        return "20220908"+"(Lenovo:"+lenovo.getLenovo_version()+")"+"(Supi:"+SupiImpl.getversion()+")";
     }
     public int getMMDM(){
         return MMDM;
@@ -95,7 +95,6 @@ public class HackMdm extends Object {
         return false;
     }
     public boolean isEMUI10UnlockedDevice(){
-        //TODO 临时解法
         boolean autoselect=false;
         if(Sysutils.getDevice().contains("HUAWEI")&&Build.VERSION.SDK_INT==29){
             if(MMDM==Generic_mdm&&!dpm.isDeviceOwnerApp("com.android.launcher3")){
@@ -228,7 +227,6 @@ public class HackMdm extends Object {
     }
     public void T11Cmd(String cmd){
         SupiImpl.RootCommand(cmd);
-
     }
     public boolean RootCommand(String command) {
         if(new MDM(context).t11_rootmode()==4){
@@ -406,7 +404,14 @@ public class HackMdm extends Object {
                 }
                 return list1.toString();
             }else if(MMDM==T11){
-                return "T11设备不支持app白名单";
+                ArrayList<String>list1=new ArrayList<>();
+                List<PackageInfo> packages = context.getPackageManager().getInstalledPackages(0);
+                for (PackageInfo packageInfox : packages) {
+                    if ((packageInfox.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0){
+                        list1.add(packageInfox.packageName);
+                    }
+                    return list1.toString();
+                }
             }
             return "?";
         }
@@ -415,7 +420,7 @@ public class HackMdm extends Object {
         }
     }
     public void appwhitelist_add(String appname){
-        if (MMDM==Generic_mdm&&!isEMUI10UnlockedDevice()){
+        if (getGeneric_mdm()==Generic_mdm&&!isEMUI10UnlockedDevice()){
             Intent intent4 = new Intent();
             intent4.setPackage(launcher);
             intent4.setAction("com.linspirer.edu.setappwhitelist");
@@ -671,7 +676,7 @@ public class HackMdm extends Object {
         }catch (Exception e){
             e.printStackTrace();
         }
-        if(MMDM==Generic_mdm){
+        if(getGeneric_mdm()==Generic_mdm){
             if(!DataUtils.readStringValue(context,"wallpaper","").equals("")){
                 setwallpaper(DataUtils.readStringValue(context,"wallpaper",""));
             }
@@ -708,13 +713,11 @@ public class HackMdm extends Object {
     public void Lenovo_clear_whitelist_app(){
         lenovo.Lenovo_clear_whitelist_app();
     }
-    public void samsungimpl_clear_whitelist_app(){
-    }
     public void mia_setpasswd(String str){
         lenovo.mia_setpasswd(str);
     }
     public void setwallpaper(String path){
-        if(MMDM==Generic_mdm){
+        if(getGeneric_mdm()==Generic_mdm){
             Intent intent4 = new Intent();
             intent4.setPackage(launcher);
             intent4.setAction("com.linspirer.edu.setwallpaper");
@@ -732,7 +735,10 @@ public class HackMdm extends Object {
         }
         else {
             if(!isDeviceOwnerActive())return;
-            dpm.setProfileName(testDeviceAdmin,name);
+            try {
+                dpm.setProfileName(testDeviceAdmin,name);
+            }catch (Exception ignore){
+            }
         }
     }
     public void RestoreFactory_DeviceAdmin(){
@@ -750,7 +756,7 @@ public class HackMdm extends Object {
     }
     public void class_over(){
         lenovo.ClassOver();
-        if(MMDM==Generic_mdm){
+        if(getGeneric_mdm()==Generic_mdm){
             Intent intent=new Intent("com.linspirer.edu.class.over");
             intent.setPackage("com.android.launcher3");
             context.sendBroadcast(intent);
@@ -817,7 +823,7 @@ public class HackMdm extends Object {
                 }
                 pulldownApp();
                 BlockUnInstall(new ArrayList<>());
-                if (MMDM==Generic_mdm){
+                if (getGeneric_mdm()==Generic_mdm){
                     hack_into_generic_mdm_with_Linspirer();
                     hack_into_generic_mdm_with_linspirer_miemie();
                 }
@@ -826,5 +832,11 @@ public class HackMdm extends Object {
             }
         });
         th.start();
+    }
+    private int getGeneric_mdm(){
+        if(MMDM==T11){
+            return -1;
+        }
+        else return MMDM;
     }
 }
