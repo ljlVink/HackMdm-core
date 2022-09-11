@@ -15,7 +15,7 @@ public class MainUtils {
         this.context=context;
     }
     public String getversion(){
-        return "20220909";
+        return "20220910";
     }
     public void InitHack(){
         //开网

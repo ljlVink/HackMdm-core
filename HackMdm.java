@@ -80,7 +80,7 @@ public class HackMdm extends Object {
         }
     }
     public String getHackmdm_version(){
-        return "20220908"+"(Lenovo:"+lenovo.getLenovo_version()+")"+"(Supi:"+SupiImpl.getversion()+")";
+        return "20220911"+"(Lenovo:"+lenovo.getLenovo_version()+")"+"(Supi:"+SupiImpl.getversion()+")";
     }
     public int getMMDM(){
         return MMDM;
@@ -197,6 +197,12 @@ public class HackMdm extends Object {
             for (int i = 0; i < li1test.size(); i++) {
                 dpm.setApplicationHidden(testDeviceAdmin,li1test.get(i),false);
             }
+        }else if(MMDM==Generic_mdm){
+            Intent intent4 = new Intent();
+            intent4.setPackage("com.android.launcher3");
+            intent4.setAction("com.linspirer.edu.enableapp");
+            intent4.putExtra("appwhitelist",li1test);
+            context.sendBroadcast(intent4);
         }
     }
     public void EnableStatusBar(){
@@ -644,7 +650,6 @@ public class HackMdm extends Object {
                             }
                         }
                     }
-
                     dpm.clearUserRestriction(testDeviceAdmin,UserManager.DISALLOW_FACTORY_RESET);
                     dpm.clearDeviceOwnerApp(context.getPackageName());
                 }

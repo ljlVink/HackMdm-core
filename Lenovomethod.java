@@ -35,7 +35,6 @@ public class Lenovomethod {
     DevicePolicyManager dpm;
 
     private final static String launcher="com.android.launcher3";
-    private final static String execmdsvc="com.drupe.swd.launcher.huoshan.mdm.service.ExecuteCmdService";
     public boolean isSystemApplication(){
         PackageManager mPackageManager = context.getPackageManager();
         try {
@@ -115,7 +114,7 @@ public class Lenovomethod {
         }
     }
     public String getLenovo_version(){
-        return "20220908patch02";
+        return "20220911";
     }
     public void initSecondHack(){
         if(MMDM==Lenovo_Csdk){
