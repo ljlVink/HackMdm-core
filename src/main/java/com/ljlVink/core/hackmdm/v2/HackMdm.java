@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
+import com.ljlVink.Util.Sysutils_1;
 import com.ljlVink.core.hackmdm.v2.Lenovo.CSDKMDM;
 import com.ljlVink.core.hackmdm.v2.Lenovo.MiaMDM;
 
@@ -39,6 +40,7 @@ public class HackMdm{
                 LENOVO_CSDK=false;
             }
         }
+        DeviceMDM=GenericMDM.getInstance(mContext);
         if(LENOVO_CSDK==true&&LENOVO_MIAMDM==false){
             DeviceMDM=CSDKMDM.getInstance(mContext);
         }
@@ -47,16 +49,13 @@ public class HackMdm{
         }
         if(LENOVO_CSDK==true&&LENOVO_MIAMDM==true){
             DeviceMDM=MiaMDM.getInstance(mContext);
-
         }if(Build.BRAND.equals("T11")){
             DeviceMDM=Supi.getInstance(mContext);
-        }/*
-        if(Build.BRAND.equals("MuMu")){
+        }
+        if(Sysutils_1.getDevice().contains("MuMu")){
             DeviceMDM=TestImpl.getInstance(mContext);
-        }*/else {Log.e("hackmdm","init generic");
-
+        }else {
             DeviceMDM=GenericMDM.getInstance(mContext);
         }
-        Log.e("hackmdm","init end");
     }
 }

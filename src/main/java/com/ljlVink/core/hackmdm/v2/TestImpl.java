@@ -7,7 +7,6 @@ public class TestImpl extends GenericMDM{
     public Context mContext;
 
     private TestImpl(Context context){
-        GenericMDM.getInstance(context);
         this.mContext=context;
     }
     public static TestImpl getInstance(Context context){
@@ -16,5 +15,6 @@ public class TestImpl extends GenericMDM{
         }
         return testmdm;
     }
-
+    @Override
+    public void initHack(int opt){}
 }

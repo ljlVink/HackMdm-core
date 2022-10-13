@@ -21,7 +21,6 @@ public class MiaMDM extends GenericMDM {
     public Context mContext;
     private MiaMdmPolicyManager mia;
     private MiaMDM (Context context){
-        GenericMDM.getInstance(context);
         this.mContext=context;
         this.mia=new MiaMdmPolicyManager(context);
     }
@@ -90,6 +89,10 @@ public class MiaMDM extends GenericMDM {
             try{mia.setTFcard(false);}catch (Throwable ignore){ }
         }catch (Throwable ignore){}
 
+    }
+    @Override
+    public int getCurrentMDM(){
+        return 3;
     }
 
     @Override

@@ -94,6 +94,12 @@ public class GenericMDM implements MDMInterface{
     public void hw_hidesettings(String str){
         settings_putString("settings_menus_remove",str);
     }
+
+    @Override
+    public int getCurrentMDM() {
+        return -1;
+    }
+
     @Override
     public void settings_enable_adb(boolean enable){
         settings_putInt("adb_enabled",enable?1:0);
@@ -458,7 +464,7 @@ public class GenericMDM implements MDMInterface{
     }
     @Override
     public String getVersion(){
-        return "v2.20221010.Release";
+        return "v2.20221013.Release";
     }
 
     @Override

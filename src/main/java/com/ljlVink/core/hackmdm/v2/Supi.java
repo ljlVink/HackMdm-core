@@ -18,7 +18,6 @@ public class Supi extends GenericMDM {
     public Context mContext;
 
     private Supi(Context context){
-        GenericMDM.getInstance(context);
         this.mContext=context;
     }
     @Override
@@ -105,6 +104,11 @@ public class Supi extends GenericMDM {
         super.RootCMD(cmd);
         return true;
     }
+    @Override
+    public int getCurrentMDM(){
+        return 4;
+    }
+
     @Override
     public String getMDMName() {
         return "supi_T11";

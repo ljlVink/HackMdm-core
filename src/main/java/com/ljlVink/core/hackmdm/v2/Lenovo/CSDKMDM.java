@@ -23,7 +23,6 @@ public class CSDKMDM extends GenericMDM {
     public Context mContext;
 
     private CSDKMDM(Context context){
-        GenericMDM.getInstance(context);
         this.mContext=context;
         csdk=new CSDKManager(context);
     }
@@ -51,6 +50,10 @@ public class CSDKMDM extends GenericMDM {
         try{csdk.setComponentEnabled(new ComponentName("com.android.settings","com.android.settings.password.ChooseLockPassword"),0,0);}catch (Throwable ignore){}
         try{csdk.setComponentEnabled(new ComponentName("com.android.settings","com.android.settings.password.ChooseLockGeneric"),0,0);}catch (Throwable ignore){}
 
+    }
+    @Override
+    public int getCurrentMDM(){
+        return 2;
     }
     @Override
     public String getMDMName() {

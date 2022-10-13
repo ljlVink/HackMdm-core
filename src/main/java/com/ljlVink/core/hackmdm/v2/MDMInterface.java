@@ -12,7 +12,7 @@ public interface MDMInterface {
     void active_DeviceAdmin();
     void settings_enable_adb(boolean enable);
     void hw_hidesettings(String str);
-
+    int getCurrentMDM();
     boolean settings_putInt(String name,int val);
     boolean settings_putString(String name,String val);
     boolean isDeviceAdminActive();
