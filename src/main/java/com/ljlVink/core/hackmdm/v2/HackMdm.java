@@ -18,19 +18,20 @@ public class HackMdm{
         this.mContext=context;
     }
     public void initMDM() {
-        Log.e("hackmdm","init start");
         try{
             Class.forName("android.app.mia.MiaMdmPolicyManager");
         }
         catch (ClassNotFoundException e){
             LENOVO_MIAMDM=false;
         }
+
         try{
             Class.forName("android.app.csdk.CSDKManager");
         }
         catch (ClassNotFoundException e){
             LENOVO_CSDK=false;
         }
+
         if(LENOVO_CSDK){
             try{
                 if(new CSDKManager(mContext).getDeviceInfo(1).equals("")){
@@ -40,6 +41,7 @@ public class HackMdm{
                 LENOVO_CSDK=false;
             }
         }
+
         DeviceMDM=GenericMDM.getInstance(mContext);
         if(LENOVO_CSDK==true&&LENOVO_MIAMDM==false){
             DeviceMDM=CSDKMDM.getInstance(mContext);
