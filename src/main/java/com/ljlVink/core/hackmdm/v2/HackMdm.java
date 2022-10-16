@@ -3,7 +3,6 @@ package com.ljlVink.core.hackmdm.v2;
 import android.app.csdk.CSDKManager;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import com.ljlVink.Util.Sysutils_1;
 import com.ljlVink.core.hackmdm.v2.Lenovo.CSDKMDM;
@@ -24,14 +23,12 @@ public class HackMdm{
         catch (ClassNotFoundException e){
             LENOVO_MIAMDM=false;
         }
-
         try{
             Class.forName("android.app.csdk.CSDKManager");
         }
         catch (ClassNotFoundException e){
             LENOVO_CSDK=false;
         }
-
         if(LENOVO_CSDK){
             try{
                 if(new CSDKManager(mContext).getDeviceInfo(1).equals("")){
@@ -41,22 +38,22 @@ public class HackMdm{
                 LENOVO_CSDK=false;
             }
         }
-
         DeviceMDM=GenericMDM.getInstance(mContext);
-        if(LENOVO_CSDK==true&&LENOVO_MIAMDM==false){
+        if(LENOVO_CSDK && !LENOVO_MIAMDM){
             DeviceMDM=CSDKMDM.getInstance(mContext);
         }
-        if(LENOVO_CSDK==false&&LENOVO_MIAMDM==true){
+        else if(!LENOVO_CSDK && LENOVO_MIAMDM){
             DeviceMDM=MiaMDM.getInstance(mContext);
         }
-        if(LENOVO_CSDK==true&&LENOVO_MIAMDM==true){
+        else if(LENOVO_CSDK && LENOVO_MIAMDM){
             DeviceMDM=MiaMDM.getInstance(mContext);
-        }if(Build.BRAND.equals("T11")){
+        }else if(Build.BRAND.equals("T11")){
             DeviceMDM=Supi.getInstance(mContext);
         }
-        if(Sysutils_1.getDevice().contains("MuMu")){
+        else if(Sysutils_1.getDevice().contains("MuMu")){
             DeviceMDM=TestImpl.getInstance(mContext);
-        }else {
+        }
+        else {
             DeviceMDM=GenericMDM.getInstance(mContext);
         }
     }

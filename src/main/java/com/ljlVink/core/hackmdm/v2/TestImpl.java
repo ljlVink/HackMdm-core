@@ -12,13 +12,12 @@ public class TestImpl extends GenericMDM{
     public static TestImpl getInstance(Context context){
         if(testmdm==null){
             testmdm=new TestImpl(context);
-
         }
         return testmdm;
     }
     @Override
     public void initHack(int opt){
-        Toast.makeText(mContext, "inithack now is TestImpl", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "inithack now is TestImpl,opt="+opt, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -28,5 +27,10 @@ public class TestImpl extends GenericMDM{
     @Override
     public void disableStatusBar(){
         Toast.makeText(mContext, "disableStatusBar(", Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    public void clear_whitelist_app_lenovo(){
+        Toast.makeText(mContext, "mumuimpl-clear_whitelist_app_lenovo(", Toast.LENGTH_SHORT).show();
+
     }
 }

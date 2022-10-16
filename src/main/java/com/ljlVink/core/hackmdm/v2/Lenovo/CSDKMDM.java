@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Looper;
+import android.widget.Toast;
 
 import com.ljlVink.core.hackmdm.v2.DataUtils;
 import com.ljlVink.core.hackmdm.v2.GenericMDM;
@@ -76,7 +77,7 @@ public class CSDKMDM extends GenericMDM {
         else enablelspForBJSZ=0;
         try{csdk.setHomeKey(false);}catch (Throwable e){}
         enableFirewall(true);
-        if(enablelspForBJSZ==0) try{csdk.setPackageEnabled("com.android.launcher3", true); } catch (Throwable e) { }
+        if(enablelspForBJSZ==0) try{iceApp("com.android.launcher3",false); } catch (Throwable e) { }
         try{csdk.hideHomeSoftKey(false);}catch (Throwable e){}
         try{csdk.disableBluetooth(true);}catch (Throwable e){}
         try{csdk.disableBluetoothShare(true);}catch (Throwable e){}
@@ -294,6 +295,9 @@ public class CSDKMDM extends GenericMDM {
         try {
             csdk.setPackageEnabled(app, !isIce);
         } catch (Exception e) {
+            try{
+                dPm.setApplicationHidden(admin,app,false);
+            }catch (Throwable ignore){}
         }
     }
     @Override
