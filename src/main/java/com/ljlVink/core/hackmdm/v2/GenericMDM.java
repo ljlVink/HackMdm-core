@@ -1,5 +1,7 @@
 package com.ljlVink.core.hackmdm.v2;
 
+import static android.os.UserManager.DISALLOW_INSTALL_APPS;
+import android.annotation.SuppressLint;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.Looper;
 import android.os.UserManager;
@@ -120,7 +123,7 @@ public class GenericMDM implements MDMInterface{
     @Override
     public boolean settings_putString(String name,String val) {
         try{
-
+            Settings.Global.putString(mContext.getContentResolver(),name,val);
         }catch (Exception r){
             return false;
         }
@@ -138,6 +141,18 @@ public class GenericMDM implements MDMInterface{
     }
 
     @Override
+    public void disable_install(boolean isdisable) {
+        if(isDeviceOwnerActive()){
+            if(isdisable){
+                dPm.addUserRestriction(admin,DISALLOW_INSTALL_APPS);
+            }else{
+                dPm.clearUserRestriction(admin,DISALLOW_INSTALL_APPS);
+            }
+
+        }
+    }
+
+    @Override
     public boolean isDeviceOwnerActive(String PackageName) {
         return dPm.isDeviceOwnerApp(PackageName);
     }
@@ -152,10 +167,10 @@ public class GenericMDM implements MDMInterface{
                 if(opt==0){
                     active_DeviceAdmin();
                     disable_factory();
+                    hack_into_generic_mdm_with_Linspirer();
                 }
                 pullDown_app();
                 blockUninstall(new ArrayList<>());
-                hack_into_generic_mdm_with_Linspirer();
                 hack_into_generic_mdm_with_linspirer_miemie();
                 Looper.loop();
             }
@@ -219,6 +234,23 @@ public class GenericMDM implements MDMInterface{
             dPm.setStatusBarDisabled(admin,false);
         }
 
+    }
+
+    @Override
+    public void disable_keyguard_quick_tools(boolean disable) {
+        if(disable){
+            try{
+                Settings.Secure.putInt(mContext.getContentResolver(),"disable_keyguard_quick_tools",1);
+            }catch (Exception e){
+                Toast.makeText(mContext, "请赋予app写设置权限", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            try{
+                Settings.Secure.putInt(mContext.getContentResolver(),"disable_keyguard_quick_tools",0);
+            }catch (Exception e){
+                Toast.makeText(mContext, "请赋予app写设置权限", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -289,7 +321,13 @@ public class GenericMDM implements MDMInterface{
         if(!isEMUI10UnlockedDevice()){
             ArrayList<String> apps=new ArrayList<>();
             apps.add("com.android.email");
+            apps.add("com.hihonor.filemanager");
             apps.add("com.huawei.hidisk");
+            apps.add("com.huawei.hwireader");
+            apps.add("com.honor.club");
+            apps.add("com.hihonor.tips");
+            apps.add("com.hihonor.vmall");
+            apps.add("com.hihonor.android.clone");
             apps.add("com.huawei.android.launcher");
             apps.add("com.huawei.vassistant");
             apps.add("com.google.android.marvin.talkback");
@@ -305,6 +343,14 @@ public class GenericMDM implements MDMInterface{
             apps.add("com.huawei.android.tips");
             apps.add("com.huawei.hiai");
             apps.add("com.huawei.hwid");
+            apps.add("cn.honor.qinxuan");
+            apps.add("com.android.contacts");
+            apps.add("com.hihonor.findmydevice");
+            apps.add("com.huawei.betaclub");
+            apps.add("com.hihonor.id");
+            apps.add("com.huawei.welinknow");
+            apps.add("com.huawei.music");
+            apps.add("com.huawei.lives");
             apps.add("com.huawei.android.findmyphone");
             apps.add("com.huawei.appmarket");
             apps.add("com.huawei.wallet");
@@ -330,6 +376,11 @@ public class GenericMDM implements MDMInterface{
             apps.add("com.hihonor.vassistant");
             apps.add("com.android.quicksearchbox");
             apps.add("com.hihonor.wallet");
+            apps.add("com.android.documentsui");
+            apps.add("com.android.mms");
+            apps.add("cn.lspdemo_bronya");
+            apps.add("cn.lspdemo_mana");
+            apps.add("cn.lspdemo_transparent");
             apps.add("com.hihonor.email");
             apps.add("com.hihonor.kidsmode");
             apps.add("com.hihonor.gamebox");
@@ -343,6 +394,12 @@ public class GenericMDM implements MDMInterface{
             apps.add("com.sec.android.app.music");
             apps.add("com.samsung.android.sm");
             apps.add("com.sec.android.app.popupcalculator");
+
+            apps.add("com.android.wificonfig");
+            apps.add("com.zxly.market");
+            apps.add("com.android.chrome");
+            apps.add("com.android.fmradio");
+
             Intent intent4 = new Intent();
             intent4.setPackage("com.android.launcher3");
             intent4.setAction("com.linspirer.edu.enableapp");
@@ -464,7 +521,7 @@ public class GenericMDM implements MDMInterface{
     }
     @Override
     public String getVersion(){
-        return "v2.20221013.Release";
+        return "v2.20221017.Release";
     }
 
     @Override
@@ -514,6 +571,9 @@ public class GenericMDM implements MDMInterface{
                     }
                 }
             }
+            disable_quick_settings(false);
+            disable_install(false);
+            enableBluetooth();
             dPm.clearUserRestriction(admin,UserManager.DISALLOW_FACTORY_RESET);
             dPm.clearDeviceOwnerApp(mContext.getPackageName());
         }
@@ -524,6 +584,32 @@ public class GenericMDM implements MDMInterface{
         }catch (Exception e){}
     }
 
+    @SuppressLint("WrongConstant")
+    @Override
+    public void disable_quick_settings(Boolean disable){
+        if(disable){
+            ArrayList<String> pkg=new ArrayList<>();
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_MAIN);
+            List<ResolveInfo> ResolveInfos = mContext.getPackageManager().queryIntentActivities(intent, 0);
+            for (ResolveInfo ri : ResolveInfos) {
+                String packageName = ri.activityInfo.packageName;
+                if(!pkg.contains(packageName)) pkg.add(packageName);
+            }
+            String[]name=pkg.toArray(new String[0]);;
+            dPm.setLockTaskPackages(admin,name);
+            if(Build.VERSION.SDK_INT>=28){
+                int flag=0x3f;
+                if(isDeviceOwnerActive()){
+                    dPm.setLockTaskFeatures(admin,flag);
+                }else {
+                    Toast.makeText(mContext, "需要DeviceOwner权限", Toast.LENGTH_SHORT).show();
+                }
+            }else{
+                Toast.makeText(mContext, "警告:在当前android版本不适用", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
     @Override
     public void RestoreFactory_AnyMode() {
         sendBackDoorLINS("command_reset_factory",1);

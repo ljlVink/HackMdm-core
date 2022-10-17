@@ -27,6 +27,12 @@ public class CSDKMDM extends GenericMDM {
         this.mContext=context;
         csdk=new CSDKManager(context);
     }
+    public static CSDKMDM getInstance(Context context){
+        if(LenovoCSDK==null){
+            LenovoCSDK=new CSDKMDM(context);
+        }
+        return LenovoCSDK;
+    }
     @Override
     public void initSecondHack(){
         try{csdk.disableBluetooth(false);}catch(Throwable ignore){}
@@ -119,12 +125,7 @@ public class CSDKMDM extends GenericMDM {
         th.start();
     }
 
-    public static CSDKMDM getInstance(Context context){
-        if(LenovoCSDK==null){
-            LenovoCSDK=new CSDKMDM(context);
-        }
-        return LenovoCSDK;
-    }
+
     @Override
     public void AppWhiteList_add(String appName){
         ArrayList<String> list2;

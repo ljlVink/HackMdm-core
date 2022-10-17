@@ -1,5 +1,6 @@
 package com.ljlVink.core.hackmdm.v2;
 
+import android.app.Activity;
 import android.content.ComponentName;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 public interface MDMInterface {
     void first_init();
     void disableBluetooth();
+    void disable_quick_settings(Boolean disable);
     void enableBluetooth();
     void wash_whitelist();
     void active_DeviceAdmin();
@@ -17,6 +19,7 @@ public interface MDMInterface {
     boolean settings_putString(String name,String val);
     boolean isDeviceAdminActive();
     boolean isDeviceOwnerActive();
+    void disable_install(boolean isdisable);
     boolean isDeviceOwnerActive(String PackageName);
     void initHack(int opt);
     void initSecondHack();
@@ -24,6 +27,7 @@ public interface MDMInterface {
     void pullDown_app();
     void pullUp_app();
     void enableStatusBar();
+    void disable_keyguard_quick_tools(boolean disable);
     void disableStatusBar();
     String  getMDMName();
     void setDefaultLauncher(ComponentName cn);
