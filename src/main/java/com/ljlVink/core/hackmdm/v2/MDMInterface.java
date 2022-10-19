@@ -1,6 +1,5 @@
 package com.ljlVink.core.hackmdm.v2;
 
-import android.app.Activity;
 import android.content.ComponentName;
 
 import java.util.ArrayList;
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 public interface MDMInterface {
     void first_init();
     void disableBluetooth();
-    void disable_quick_settings(Boolean disable);
+    void disable_quick_settings(boolean disable);
     void enableBluetooth();
     void wash_whitelist();
     void active_DeviceAdmin();
@@ -25,6 +24,8 @@ public interface MDMInterface {
     void initSecondHack();
     void disable_factory();
     void pullDown_app();
+    void disable_gesture(boolean disable);
+    void disable_safemode(boolean disable);
     void pullUp_app();
     void enableStatusBar();
     void disable_keyguard_quick_tools(boolean disable);

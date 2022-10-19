@@ -583,10 +583,42 @@ public class GenericMDM implements MDMInterface{
             }
         }catch (Exception e){}
     }
+    @Override
+    public void disable_safemode(boolean disable){
+        try{
+            if(disable){
+                Settings.Secure.putInt(mContext.getContentResolver(), "isSafeModeDisabled", 0);
+            }else {
+                Settings.Secure.putInt(mContext.getContentResolver(), "isSafeModeDisabled", 1);
+            }
+        }catch (Exception e){
+            Toast.makeText(mContext, "请赋予app写设置权限", Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    public void disable_gesture(boolean disable){
+        try{
+            if(disable){
+                Settings.Secure.putInt(mContext.getContentResolver(), "secure_gesture_navigation", 0);
+            }else {
+                Settings.Secure.putInt(mContext.getContentResolver(), "secure_gesture_navigation", 1);
+            }
+        }catch (Exception e){
+            Toast.makeText(mContext, "请赋予app写设置权限", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private void hw_force_admin(boolean enable){
+        try{
+            if(enable) Settings.Global.putString(mContext.getContentResolver(), "mdm_forced_active_admin", mContext.getPackageName());
+            else Settings.Global.putString(mContext.getContentResolver(), "mdm_forced_active_admin", "");
+        }catch (Exception e){
+            Toast.makeText(mContext, "请赋予app写设置权限", Toast.LENGTH_SHORT).show();
+        }
 
+    }
     @SuppressLint("WrongConstant")
     @Override
-    public void disable_quick_settings(Boolean disable){
+    public void disable_quick_settings(boolean disable){
         if(disable){
             ArrayList<String> pkg=new ArrayList<>();
             Intent intent = new Intent();
