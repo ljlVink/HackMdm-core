@@ -588,6 +588,7 @@ public class GenericMDM implements MDMInterface{
         try{
             if(disable){
                 Settings.Secure.putInt(mContext.getContentResolver(), "isSafeModeDisabled", 0);
+
             }else {
                 Settings.Secure.putInt(mContext.getContentResolver(), "isSafeModeDisabled", 1);
             }
