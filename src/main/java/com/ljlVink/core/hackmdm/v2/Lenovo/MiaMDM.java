@@ -161,18 +161,6 @@ public class MiaMDM extends GenericMDM {
     public void first_init(){
     }
     @Override
-    public void pullUp_app(){
-        ArrayList<String>li1test= DataUtils.ReadStringArraylist(mContext,"superapp");
-        if(isDeviceOwnerActive()){
-            return;
-        }
-        else{
-            for (int i = 0; i < li1test.size(); i++) {
-                iceApp(li1test.get(i),true);
-            }
-        }
-    }
-    @Override
     public void classOver() {
         try {
             mia.setNavigaBar(false);
