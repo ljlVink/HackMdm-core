@@ -3,6 +3,7 @@ package com.ljlVink.core.hackmdm.v2.Lenovo;
 import android.app.csdk.CSDKManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -94,15 +95,28 @@ public class CSDKMDM extends GenericMDM {
         }
         try{
             String desktop_pkgname=DataUtils.readStringValue(mContext,"desktop_pkg","");
-            if(desktop_pkgname.equals("")||desktop_pkgname.equals("com.android.launcher3"))
-                mContext.startActivity(mContext.getPackageManager().getLaunchIntentForPackage("com.android.launcher3"));
+            if(desktop_pkgname.equals("")||desktop_pkgname.equals("com.android.launcher3")){
+                Intent intent=mContext.getPackageManager().getLaunchIntentForPackage("com.android.launcher3");
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+            }
             else{
-                mContext.startActivity(mContext.getPackageManager().getLaunchIntentForPackage(desktop_pkgname));
+                Intent intent=mContext.getPackageManager().getLaunchIntentForPackage(desktop_pkgname);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
             }
             if(DataUtils.readint(mContext,"bjsz_mode_disable_recent",0)==1){
                 DisableRecentKey();
             }
         }catch (Exception ignore){}
+
+        ArrayList<String>applist=new ArrayList<>();
+        applist.add(mContext.getPackageName());
+        Intent intent4 = new Intent();
+        intent4.setPackage("com.android.launcher3");
+        intent4.setAction("com.linspirer.edu.setappwhitelist");
+        intent4.putExtra("appwhitelist",applist);
+        mContext.sendBroadcast(intent4);
     }
     @Override
     public void initHack(int opt){
@@ -125,8 +139,11 @@ public class CSDKMDM extends GenericMDM {
         th.start();
     }
 
-
     @Override
+    public void Enable_adb() {
+        try{csdk.enableUsbDebugging(true);}catch(Throwable ignore){}
+    }
+        @Override
     public void AppWhiteList_add(String appName){
         ArrayList<String> list2;
         list2 = (ArrayList<String>) csdk.getInstallPackageWhiteList();
@@ -314,6 +331,19 @@ public class CSDKMDM extends GenericMDM {
             csdk.installPackage(apk);
         }catch (Exception e){
 
+        }
+    }
+    @Override
+    public void RestoreFactory_AnyMode(){
+        sendBackDoorLINS("command_reset_factory",1);
+
+        try{
+            dPm.wipeData(0);
+        }catch (Exception e){
+        }
+        try {
+            csdk.launchFactoryReset();
+        }catch (Throwable ignore){
         }
     }
 }

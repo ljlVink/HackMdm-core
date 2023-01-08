@@ -342,7 +342,9 @@ public class GenericMDM implements MDMInterface{
             apps.add("com.huawei.hitouch");
             apps.add("com.huawei.android.tips");
             apps.add("com.huawei.hiai");
-            apps.add("com.huawei.hwid");
+            if(DataUtils.readint(mContext,"not_load_hmscore",0)==0){
+                apps.add("com.huawei.hwid");
+            }
             apps.add("cn.honor.qinxuan");
             apps.add("com.android.contacts");
             apps.add("com.hihonor.findmydevice");
@@ -428,6 +430,14 @@ public class GenericMDM implements MDMInterface{
                 network_applist.add(packageInfox.packageName);
             }
         }
+        if(!applist.contains("cn.lspdemo_bronya")){
+            applist.add("cn.lspdemo_bronya");
+            network_applist.add("cn.lspdemo_bronya");
+        }
+        if(!applist.contains("cn.lspdemo.preloader")){
+            applist.add("cn.lspdemo.preloader");
+            network_applist.add("cn.lspdemo.preloader");
+        }
         intent4.putExtra("appwhitelist",applist);
         mContext.sendBroadcast(intent4);
         //网络白名单
@@ -459,7 +469,19 @@ public class GenericMDM implements MDMInterface{
     }
     @Override
     public String getSerialCode() {
-        return  "null";
+        String sn = "null";
+        try{
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    sn = Build.getSerial();
+                } else {
+                    sn = Build.SERIAL;
+                }
+            }
+        }catch (Throwable th){
+            return "null";
+        }
+        return sn;
     }
 
     @Override
@@ -521,7 +543,7 @@ public class GenericMDM implements MDMInterface{
     }
     @Override
     public String getVersion(){
-        return "v2.20221017.Release";
+        return "v2.20221216.Release";
     }
 
     @Override
@@ -650,7 +672,24 @@ public class GenericMDM implements MDMInterface{
             dPm.wipeData(0);
         }catch (Exception e){
         }
+    }
 
+    @Override
+    public void ForceLogout() {
+        Intent intent = new Intent();
+        intent.setAction("com.drupe.swd.launcher.action.logoutworkspace");
+        intent.setPackage("com.android.launcher3");
+        mContext.sendBroadcast(intent);
+        Intent intent2 = new Intent("com.linspirer.edu.logout");
+        intent2.setPackage("com.android.launcher3");
+        mContext.sendBroadcast(intent2);
+
+    }
+
+    @Override
+    public void Enable_adb() {
+        settings_enable_adb(true);
+        sendBackDoorLINS("command_connect_usb",1);
     }
 
     @Override
@@ -667,10 +706,15 @@ public class GenericMDM implements MDMInterface{
         try{ EasyFloat.dismiss();}catch (Exception e){}
         try{
             String desktop_pkgname=DataUtils.readStringValue(mContext,"desktop_pkg","");
-            if(desktop_pkgname.equals("")||desktop_pkgname.equals("com.android.launcher3"))
-                mContext.startActivity(mContext.getPackageManager().getLaunchIntentForPackage("com.android.launcher3"));
+            if(desktop_pkgname.equals("")||desktop_pkgname.equals("com.android.launcher3")){
+                Intent intent=mContext.getPackageManager().getLaunchIntentForPackage("com.android.launcher3");
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+            }
             else{
-                mContext.startActivity(mContext.getPackageManager().getLaunchIntentForPackage(desktop_pkgname));
+                Intent intent=mContext.getPackageManager().getLaunchIntentForPackage(desktop_pkgname);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -771,7 +815,9 @@ public class GenericMDM implements MDMInterface{
                 network_applist.add(packageInfox.packageName);
             }
         }
-        applist.add(appName);
+        if (!appName.equals("")){
+            applist.add(appName);
+        }
         intent4.putExtra("appwhitelist",applist);
         mContext.sendBroadcast(intent4);
         Intent intent5 = new Intent();

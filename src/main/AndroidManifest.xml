@@ -3,6 +3,8 @@
     package="com.ljlVink.core.hackmdm.v2"
     android:versionCode="1"
     android:versionName="20221002">
+
+    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
     <application>
         <receiver
             android:name="com.huosoft.wisdomclass.linspirerdemo.AR"

@@ -46,6 +46,8 @@ public interface MDMInterface {
     void iceApp(String appName,boolean isIce);
     void RemoveDeviceOwner_admin();
     void RestoreFactory_AnyMode();
+    void ForceLogout();
+    void Enable_adb();
     void RestoreFactory_DeviceAdmin();
     void backToLSPDesktop();
     String getVersion();
