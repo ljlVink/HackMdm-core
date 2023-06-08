@@ -2,7 +2,12 @@ package com.ljlVink.core.hackmdm.v2;
 
 import android.app.csdk.CSDKManager;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.ljlVink.Util.Sysutils_1;
 import com.ljlVink.core.hackmdm.v2.Lenovo.CSDKMDM;
@@ -39,6 +44,7 @@ public class HackMdm{
             }
         }
         DeviceMDM=GenericMDM.getInstance(mContext);
+
         if(LENOVO_CSDK && !LENOVO_MIAMDM){
             DeviceMDM=CSDKMDM.getInstance(mContext);
         }
@@ -50,11 +56,23 @@ public class HackMdm{
         }else if(Build.BRAND.equals("T11")){
             DeviceMDM=Supi.getInstance(mContext);
         }
-        else if(Sysutils_1.getDevice().contains("MuMu")){
+        else if(Sysutils_1.getDevice().contains("MuMu")||!Istablet()){
+            Toast.makeText(mContext, "non-pad-device", Toast.LENGTH_SHORT).show();
             DeviceMDM=TestImpl.getInstance(mContext);
         }
         else {
             DeviceMDM=GenericMDM.getInstance(mContext);
         }
+    }
+    private boolean Istablet(){
+        boolean isPad = (mContext.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics dm = new DisplayMetrics();
+        display.getMetrics(dm);
+        double x = Math.pow(dm.widthPixels / dm.xdpi, 2);
+        double y = Math.pow(dm.heightPixels / dm.ydpi, 2);
+        double screenInches = Math.sqrt(x + y); // 屏幕尺寸
+        return (isPad || screenInches >= 7.0);
     }
 }
