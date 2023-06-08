@@ -101,7 +101,6 @@ public class Supi extends GenericMDM {
         intent.putExtra("argv", cmd);
         intent.putExtra("magic", "!@#$@ss2$");
         mContext.sendBroadcast(intent);
-        super.RootCMD(cmd);
         return true;
     }
     @Override
