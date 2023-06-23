@@ -70,7 +70,7 @@ public class CSDKMDM extends GenericMDM {
         try{csdk.disableLockScreenNotification(false);}catch (Throwable ignore){}
         try{csdk.disableStatusBarNotification(false);}catch (Throwable ignore){}
         try{csdk.setAppOpsPermissions(false);}catch (Throwable ignore){}//反流氓
-
+        try{csdk.disableCamera(false);}catch (Throwable ignore){}
     }
 
 
