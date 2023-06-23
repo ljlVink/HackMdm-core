@@ -104,6 +104,7 @@ public class Supi extends GenericMDM {
         return true;
     }
 
+    @Override
     public void InstallMagiskModule_t11(String path){
         Intent intent=new Intent("com.tensafe.app.module.install");
         intent.setPackage("com.topjohnwu.magisk");

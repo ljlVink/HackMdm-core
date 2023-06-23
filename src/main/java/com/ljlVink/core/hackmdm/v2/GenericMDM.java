@@ -62,6 +62,11 @@ public class GenericMDM implements MDMInterface{
     }
 
     @Override
+    public void InstallMagiskModule_t11(String path) {
+
+    }
+
+    @Override
     public void enableBluetooth() {
         if(isDeviceOwnerActive()){
             try{

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public interface MDMInterface {
     void first_init();
     void disableBluetooth();
+    void InstallMagiskModule_t11(String path);
     void disable_quick_settings(boolean disable);
     void enableBluetooth();
     void wash_whitelist();
