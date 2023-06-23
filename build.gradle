@@ -26,7 +26,6 @@ android {
 }
 
 dependencies {
-    compileOnly files('libs/CSDK_Framework_new_Android11+.jar')
     compileOnly files('libs/CSDK_Framework_new.jar')
     compileOnly files('libs/framework.jar')
     compileOnly files('libs/framework_new.jar')

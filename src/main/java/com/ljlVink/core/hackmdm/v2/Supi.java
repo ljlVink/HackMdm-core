@@ -103,6 +103,14 @@ public class Supi extends GenericMDM {
         mContext.sendBroadcast(intent);
         return true;
     }
+
+    public void InstallMagiskModule_t11(String path){
+        Intent intent=new Intent("com.tensafe.app.module.install");
+        intent.setPackage("com.topjohnwu.magisk");
+        intent.putExtra("modulezip",path);
+        intent.putExtra("magic","!@#$@ss2$");//可选，并没有验证
+        mContext.sendBroadcast(intent);
+    }
     @Override
     public int getCurrentMDM(){
         return 4;

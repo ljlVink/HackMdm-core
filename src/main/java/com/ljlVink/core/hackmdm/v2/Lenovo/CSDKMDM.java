@@ -53,12 +53,27 @@ public class CSDKMDM extends GenericMDM {
         try{csdk.setCustomOTG(true);}catch(Throwable ignore){}
         try{csdk.enableMassStorage(true);}catch(Throwable ignore){ }
         try{csdk.setCurrentUsbMode(1);}catch (Throwable ignore){}
-        try{csdk.allowTFcard(true);}catch(Throwable ignore){}
+        try{csdk.allowTFcard(true);}catch(Throwable ignore){} //部分机器没有
         try{csdk.disableStatusBarNotification(false);}catch (Throwable ignore){}
         try{csdk.setComponentEnabled(new ComponentName("com.android.settings","com.android.settings.password.ChooseLockPassword"),0,0);}catch (Throwable ignore){}
         try{csdk.setComponentEnabled(new ComponentName("com.android.settings","com.android.settings.password.ChooseLockGeneric"),0,0);}catch (Throwable ignore){}
+        try{csdk.disallowWifiadvancesettings_v3(false);}catch (Throwable ignore){}
+        try{csdk.disallowWifiadvancesettings_v3(false);}catch (Throwable ignore){}
+        try{csdk.disallowWifiDirect_v3(false);}catch (Throwable ignore){}
+        try{csdk.disallowSetNotificationVolume_v3(false);}catch (Throwable ignore){}
+        try{csdk.disallowDevMode_v3(false);}catch (Throwable ignore){}
+        try{csdk.disableMultiUser(false);}catch (Throwable ignore){}
+        try{csdk.disallowMultiUser_v3(false);}catch (Throwable ignore){}
+        try{csdk.disallowAirplaneMode_v3(false);}catch (Throwable ignore){}
+        try{csdk.disallowSwitchLauncher_v3(false);}catch (Throwable ignore){}
+        try{csdk.enableWIFIcaptive_v3(true);}catch (Throwable ignore){}
+        try{csdk.disableLockScreenNotification(false);}catch (Throwable ignore){}
+        try{csdk.disableStatusBarNotification(false);}catch (Throwable ignore){}
+        try{csdk.setAppOpsPermissions(false);}catch (Throwable ignore){}//反流氓
 
     }
+
+
     @Override
     public int getCurrentMDM(){
         return 2;

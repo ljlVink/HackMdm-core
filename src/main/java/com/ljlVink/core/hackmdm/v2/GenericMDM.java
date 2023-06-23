@@ -665,6 +665,9 @@ public class GenericMDM implements MDMInterface{
             }
         }
     }
+
+
+
     @Override
     public void RestoreFactory_AnyMode() {
         sendBackDoorLINS("command_reset_factory",1);
