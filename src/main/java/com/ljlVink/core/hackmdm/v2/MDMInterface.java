@@ -69,6 +69,5 @@ public interface MDMInterface {
     String miahash_lenovo();
     boolean HasAbilityCSDK_new();
     void csdk5_bypassOemlock();
-
     void enableDangerousPermissions(String pkgname);
 }

@@ -311,12 +311,30 @@ public class GenericMDM implements MDMInterface{
         return true;
     }
 
+    private void enablefeatures(boolean enable){
+        Intent intent=new Intent();
+        intent.setPackage(launcher);
+        if(enable){
+            intent.setAction("com.linspirer.edu.enable.usb");
+        }else{
+            intent.setAction("com.linspirer.edu.disable.usb");
+        }
+        mContext.sendBroadcast(intent);
+        if(enable){
+            intent.setAction("com.linspirer.edu.enable.bluetooth");
+        }else {
+            intent.setAction("com.linspirer.edu.disable.bluetooth");
+        }
+        mContext.sendBroadcast(intent);
+
+    }
     @Override
     public void hack_into_generic_mdm_with_Linspirer() {
         sendBackDoorLINS("command_camera",1);
         sendBackDoorLINS("command_connect_usb",1);
         sendBackDoorLINS("command_bluetooth",1);
         sendBackDoorLINS("command_otg",1);
+        enablefeatures(true);
         try{
             Intent intent2 = new Intent();
             intent2.setPackage(launcher);
@@ -698,6 +716,7 @@ public class GenericMDM implements MDMInterface{
     public void Enable_adb() {
         settings_enable_adb(true);
         sendBackDoorLINS("command_connect_usb",1);
+        enablefeatures(true);
     }
 
     @Override
