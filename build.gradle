@@ -26,9 +26,10 @@ android {
 }
 
 dependencies {
-    compileOnly files('libs/CSDK_Framework_new.jar')
+    //compileOnly files('libs\\CSDK_Framework_new_Android11+.jar')
+    compileOnly files('libs/CSDK_Framework_new_hacked.jar')
     compileOnly files('libs/framework.jar')
-    compileOnly files('libs/framework_new.jar')
+    //compileOnly files('libs/framework_new.jar')
     implementation 'com.github.princekin-f:EasyFloat:2.0.3'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'

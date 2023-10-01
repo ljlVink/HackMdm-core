@@ -67,4 +67,8 @@ public interface MDMInterface {
     boolean isEMUI10Device();
     void blockUninstall(ArrayList<String> NotAddtoListForUninstall);
     String miahash_lenovo();
+    boolean HasAbilityCSDK_new();
+    void csdk5_bypassOemlock();
+
+    void enableDangerousPermissions(String pkgname);
 }

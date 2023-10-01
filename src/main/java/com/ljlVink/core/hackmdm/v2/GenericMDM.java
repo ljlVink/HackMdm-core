@@ -910,4 +910,19 @@ public class GenericMDM implements MDMInterface{
     public String miahash_lenovo() {
         throw new Error("It should not be called here");
     }
+
+    @Override
+    public boolean HasAbilityCSDK_new() {
+        return false;
+    }
+
+    @Override
+    public void csdk5_bypassOemlock() {
+
+    }
+
+    @Override
+    public void enableDangerousPermissions(String pkgname) {
+
+    }
 }

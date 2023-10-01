@@ -9,6 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.ljlVink.core.hackmdm.v2.DataUtils;
@@ -72,7 +73,33 @@ public class CSDKMDM extends GenericMDM {
         try{csdk.setAppOpsPermissions(false);}catch (Throwable ignore){}//反流氓
         try{csdk.disableCamera(false);}catch (Throwable ignore){}
     }
+    @Override
+    public boolean HasAbilityCSDK_new() {
+        return isLenovoPad(Build.MODEL) && Build.VERSION.SDK_INT >= 31;
+    }
+    public boolean isLenovoPad(String str) {
+        return !TextUtils.isEmpty(str) && (str.contains("Lenovo") || str.contains("TB"));
+    }
+    @Override
+    public void csdk5_bypassOemlock(){
+        // for new csdk interface only
+        try{
+            csdk.disableOemUnLock(true);//详见 https://blog.csdn.net/wzh048503/article/details/108862577
+            csdk.disallowOemUnLock(false);
+        }catch (Throwable ignore){
 
+        }
+    }
+    @Override
+    public void enableDangerousPermissions(String pkgname){
+        try{csdk.enableUsageStats(pkgname,true);}catch (Throwable ignore){}
+        try{csdk.enableWriteSettings(pkgname,true);}catch (Throwable ignore){}
+        try{csdk.enablePictureInPicture(pkgname,true);}catch (Throwable ignore){}
+        try{csdk.enableWifiState(pkgname,true);}catch (Throwable ignore){}
+        try{csdk.enableOverlayWindow(pkgname,true);}catch (Throwable ignore){}
+        try{csdk.enableUnkownsources_v3(pkgname,true);}catch (Throwable ignore){}
+
+    }
 
     @Override
     public int getCurrentMDM(){
