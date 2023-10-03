@@ -725,6 +725,15 @@ public class GenericMDM implements MDMInterface{
             dPm.wipeData(0);
         }
     }
+    public boolean isLauncher3Installed(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            packageManager.getPackageInfo("com.android.launcher3", PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
 
     @Override
     public void backToLSPDesktop() {
@@ -734,9 +743,11 @@ public class GenericMDM implements MDMInterface{
         try{
             String desktop_pkgname=DataUtils.readStringValue(mContext,"desktop_pkg","");
             if(desktop_pkgname.equals("")||desktop_pkgname.equals("com.android.launcher3")){
-                Intent intent=mContext.getPackageManager().getLaunchIntentForPackage("com.android.launcher3");
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent);
+                if(isLauncher3Installed(mContext)){
+                    Intent intent=mContext.getPackageManager().getLaunchIntentForPackage("com.android.launcher3");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
+                }
             }
             else{
                 Intent intent=mContext.getPackageManager().getLaunchIntentForPackage(desktop_pkgname);
@@ -941,7 +952,7 @@ public class GenericMDM implements MDMInterface{
     }
 
     @Override
-    public void enableDangerousPermissions(String pkgname) {
+    public void csdk5_enableDangerousPermissions(String pkgname) {
 
     }
 }

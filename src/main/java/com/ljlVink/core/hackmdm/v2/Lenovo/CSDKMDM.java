@@ -91,14 +91,13 @@ public class CSDKMDM extends GenericMDM {
         }
     }
     @Override
-    public void enableDangerousPermissions(String pkgname){
+    public void csdk5_enableDangerousPermissions(String pkgname){
         try{csdk.enableUsageStats(pkgname,true);}catch (Throwable ignore){}
         try{csdk.enableWriteSettings(pkgname,true);}catch (Throwable ignore){}
         try{csdk.enablePictureInPicture(pkgname,true);}catch (Throwable ignore){}
         try{csdk.enableWifiState(pkgname,true);}catch (Throwable ignore){}
         try{csdk.enableOverlayWindow(pkgname,true);}catch (Throwable ignore){}
         try{csdk.enableUnkownsources_v3(pkgname,true);}catch (Throwable ignore){}
-
     }
 
     @Override
