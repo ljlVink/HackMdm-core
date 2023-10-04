@@ -53,7 +53,7 @@ public class HackMdm{
         }
         else if(LENOVO_CSDK && LENOVO_MIAMDM){
             DeviceMDM=MiaMDM.getInstance(mContext);
-        }else if(Build.BRAND.equals("T11")){
+        }else if(Sysutils_1.getDevice().contains("T11")){
             DeviceMDM=Supi.getInstance(mContext);
         }
         else if(Sysutils_1.getDevice().contains("MuMu")||!Istablet()){
