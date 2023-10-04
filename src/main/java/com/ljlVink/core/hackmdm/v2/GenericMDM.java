@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.huosoft.wisdomclass.linspirerdemo.AR;
 import com.ljlVink.Util.Sysutils_1;
+import com.lzf.easyfloat.BuildConfig;
 import com.lzf.easyfloat.EasyFloat;
 
 import java.io.DataOutputStream;
@@ -35,6 +36,7 @@ public class GenericMDM implements MDMInterface{
     public static GenericMDM genericMDM;
     public static ComponentName admin;
 
+    String Version= "v3.20231004";
     public static GenericMDM getInstance(Context context){
         if(genericMDM==null){
             genericMDM=new GenericMDM();
@@ -566,7 +568,10 @@ public class GenericMDM implements MDMInterface{
     }
     @Override
     public String getVersion(){
-        return "v2.20221216.Release";
+        if(BuildConfig.DEBUG){
+            return Version+".Debug";
+        }
+        return Version+".Release";
     }
 
     @Override
