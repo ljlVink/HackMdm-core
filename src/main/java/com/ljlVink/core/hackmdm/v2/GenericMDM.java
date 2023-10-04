@@ -60,6 +60,10 @@ public class GenericMDM implements MDMInterface{
             }catch (Exception e){
 
             }
+        }else{
+            Intent intent = new Intent("com.linspirer.edu.disable.bluetooth");
+            intent.setPackage(launcher);
+            mContext.sendBroadcast(intent);
         }
     }
 
@@ -78,6 +82,10 @@ public class GenericMDM implements MDMInterface{
             }catch (Exception e){
 
             }
+        }else{
+            Intent intent = new Intent("com.linspirer.edu.enable.bluetooth");
+            intent.setPackage(launcher);
+            mContext.sendBroadcast(intent);
         }
     }
 
@@ -322,13 +330,6 @@ public class GenericMDM implements MDMInterface{
             intent.setAction("com.linspirer.edu.disable.usb");
         }
         mContext.sendBroadcast(intent);
-        if(enable){
-            intent.setAction("com.linspirer.edu.enable.bluetooth");
-        }else {
-            intent.setAction("com.linspirer.edu.disable.bluetooth");
-        }
-        mContext.sendBroadcast(intent);
-
     }
     @Override
     public void hack_into_generic_mdm_with_Linspirer() {
@@ -484,6 +485,8 @@ public class GenericMDM implements MDMInterface{
         mContext.sendBroadcast(intent6);
         intent6.setAction("com.linspirer.edu.enableotg");
         mContext.sendBroadcast(intent6);
+        enablewifi(true);
+        enableLongPressPower(true);
     }
     @Override
     public void hack_into_generic_mdm_with_linspirer_miemie() {
@@ -958,6 +961,47 @@ public class GenericMDM implements MDMInterface{
 
     @Override
     public void csdk5_enableDangerousPermissions(String pkgname) {
+
+    }
+
+
+    @Override
+    public void enablegps(boolean enable) {
+        if(enable){
+            Intent intent = new Intent("com.linspirer.edu.enable.gps");
+            intent.setPackage(launcher);
+            mContext.sendBroadcast(intent);
+        }else{
+            Intent intent = new Intent("com.linspirer.edu.disable.gps");
+            intent.setPackage(launcher);
+            mContext.sendBroadcast(intent);
+        }
+
+    }
+
+    private void enableLongPressPower(boolean enable) {
+        if(enable){
+            Intent intent = new Intent("com.android.laucher3.mdm.enableLongPressPower");
+            intent.setPackage(launcher);
+            mContext.sendBroadcast(intent);
+        }else{
+            Intent intent = new Intent("com.android.laucher3.mdm.disableLongPressPower");
+            intent.setPackage(launcher);
+            mContext.sendBroadcast(intent);
+        }
+    }
+
+
+    private void enablewifi(boolean enable) {
+        if(enable){
+            Intent intent = new Intent("com.linspirer.edu.enable.wifi");
+            intent.setPackage(launcher);
+            mContext.sendBroadcast(intent);
+        }else{
+            Intent intent = new Intent("com.linspirer.edu.disable.wifi");
+            intent.setPackage(launcher);
+            mContext.sendBroadcast(intent);
+        }
 
     }
 }

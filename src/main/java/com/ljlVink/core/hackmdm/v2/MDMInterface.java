@@ -70,4 +70,6 @@ public interface MDMInterface {
     boolean HasAbilityCSDK_new();
     void csdk5_bypassOemlock();
     void csdk5_enableDangerousPermissions(String pkgname);
+    void enablegps(boolean enable);
+
 }
