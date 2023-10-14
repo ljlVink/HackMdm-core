@@ -36,7 +36,7 @@ public class GenericMDM implements MDMInterface{
     public static GenericMDM genericMDM;
     public static ComponentName admin;
 
-    String Version= "v3.20231004";
+    String Version= "v3.20231015";
     public static GenericMDM getInstance(Context context){
         if(genericMDM==null){
             genericMDM=new GenericMDM();
@@ -484,6 +484,28 @@ public class GenericMDM implements MDMInterface{
         intent6.setAction("com.linspirer.edu.enable.changewallpaper");
         mContext.sendBroadcast(intent6);
         intent6.setAction("com.linspirer.edu.enableotg");
+        mContext.sendBroadcast(intent6);
+        intent6.setAction("com.linspirer.edu.enablefileshare");
+        mContext.sendBroadcast(intent6);
+        intent6.setAction("com.linspirer.edu.enableshortpower");
+        mContext.sendBroadcast(intent6);
+        intent6.setAction("com.linspirer.edu.enablemic");
+        mContext.sendBroadcast(intent6);
+        intent6.setAction("com.linspirer.edu.enablePhoneAndSms");
+        mContext.sendBroadcast(intent6);
+        intent6.setAction("com.linspirer.edu.clearwifiwhitelist");
+        mContext.sendBroadcast(intent6);
+        intent6.setAction("com.linspirer.edu.enablestatusbar");
+        mContext.sendBroadcast(intent6);
+        intent6.setAction("com.linspirer.edu.enablephoneserver");
+        mContext.sendBroadcast(intent6);
+        intent6.setAction("com.linspirer.edu.enable_camera");
+        mContext.sendBroadcast(intent6);
+        intent6.setAction("com.linspirer.edu.allowstart.clear");
+        mContext.sendBroadcast(intent6);
+        intent6.setAction("com.linspirer.edu.no_control_camera");
+        mContext.sendBroadcast(intent6);
+        intent6.setAction("com.linspirer.edu.no_control_screen_shoot");
         mContext.sendBroadcast(intent6);
         enablewifi(true);
         enableLongPressPower(true);
