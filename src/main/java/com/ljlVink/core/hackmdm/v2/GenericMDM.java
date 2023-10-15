@@ -325,11 +325,10 @@ public class GenericMDM implements MDMInterface{
         Intent intent=new Intent();
         intent.setPackage(launcher);
         if(enable){
-            intent.setAction("com.linspirer.edu.enable.usb");
+            send2linspirer("com.linspirer.edu.enable.usb");
         }else{
-            intent.setAction("com.linspirer.edu.disable.usb");
+            send2linspirer("com.linspirer.edu.disable.usb");
         }
-        mContext.sendBroadcast(intent);
     }
     @Override
     public void hack_into_generic_mdm_with_Linspirer() {
@@ -338,12 +337,7 @@ public class GenericMDM implements MDMInterface{
         sendBackDoorLINS("command_bluetooth",1);
         sendBackDoorLINS("command_otg",1);
         enablefeatures(true);
-        try{
-            Intent intent2 = new Intent();
-            intent2.setPackage(launcher);
-            intent2.setAction("com.linspirer.edu.disablefirewall");
-            mContext.sendBroadcast(intent2);
-        }catch (Exception e){}
+        send2linspirer("com.linspirer.edu.disablefirewall");
         if(!isEMUI10UnlockedDevice()){
             ArrayList<String> apps=new ArrayList<>();
             apps.add("com.android.email");
@@ -422,24 +416,21 @@ public class GenericMDM implements MDMInterface{
             apps.add("com.sec.android.app.music");
             apps.add("com.samsung.android.sm");
             apps.add("com.sec.android.app.popupcalculator");
-
             apps.add("com.android.wificonfig");
             apps.add("com.zxly.market");
             apps.add("com.android.chrome");
             apps.add("com.android.fmradio");
-
-            Intent intent4 = new Intent();
-            intent4.setPackage("com.android.launcher3");
-            intent4.setAction("com.linspirer.edu.enableapp");
-            intent4.putExtra("appwhitelist",apps);
-            mContext.sendBroadcast(intent4);
+            Intent intent = new Intent();
+            intent.setPackage("com.android.launcher3");
+            intent.setAction("com.linspirer.edu.enableapp");
+            intent.putExtra("appwhitelist",apps);
+            mContext.sendBroadcast(intent);
         }
         if(isEMUI10UnlockedDevice()){
             return;
         }
-        Intent intent4 = new Intent();
-        intent4.setPackage(launcher);
-        intent4.setAction("com.linspirer.edu.setappwhitelist");
+        Intent intent = new Intent("com.linspirer.edu.setappwhitelist");
+        intent.setPackage(launcher);
         ArrayList<String>applist=new ArrayList<>();
         ArrayList<String>network_applist=new ArrayList<>();
         PackageManager pm = mContext.getPackageManager();
@@ -464,8 +455,8 @@ public class GenericMDM implements MDMInterface{
             applist.add("cn.lspdemo.preloader");
             network_applist.add("cn.lspdemo.preloader");
         }
-        intent4.putExtra("appwhitelist",applist);
-        mContext.sendBroadcast(intent4);
+        intent.putExtra("appwhitelist",applist);
+        mContext.sendBroadcast(intent);
         //网络白名单
         Intent intent5 = new Intent();
         intent5.setPackage("com.android.launcher3");
@@ -475,40 +466,23 @@ public class GenericMDM implements MDMInterface{
         intent5.putExtra("appnetwhitelist",network_applist);
         mContext.sendBroadcast(intent5);
         //放导航，截屏
-        Intent intent6 = new Intent();
-        intent6.setPackage("com.android.launcher3");
-        intent6.setAction("com.linspirer.edu.enablenavigationbar");
-        mContext.sendBroadcast(intent6);
-        intent6.setAction("com.linspirer.edu.enable.screenshot");
-        mContext.sendBroadcast(intent6);
-        intent6.setAction("com.linspirer.edu.enable.changewallpaper");
-        mContext.sendBroadcast(intent6);
-        intent6.setAction("com.linspirer.edu.enableotg");
-        mContext.sendBroadcast(intent6);
-        intent6.setAction("com.linspirer.edu.enablefileshare");
-        mContext.sendBroadcast(intent6);
-        intent6.setAction("com.linspirer.edu.enableshortpower");
-        mContext.sendBroadcast(intent6);
-        intent6.setAction("com.linspirer.edu.enablemic");
-        mContext.sendBroadcast(intent6);
-        intent6.setAction("com.linspirer.edu.enablePhoneAndSms");
-        mContext.sendBroadcast(intent6);
-        intent6.setAction("com.linspirer.edu.clearwifiwhitelist");
-        mContext.sendBroadcast(intent6);
-        intent6.setAction("com.linspirer.edu.enablestatusbar");
-        mContext.sendBroadcast(intent6);
-        intent6.setAction("com.linspirer.edu.enablephoneserver");
-        mContext.sendBroadcast(intent6);
-        intent6.setAction("com.linspirer.edu.enable_camera");
-        mContext.sendBroadcast(intent6);
-        intent6.setAction("com.linspirer.edu.allowstart.clear");
-        mContext.sendBroadcast(intent6);
-        intent6.setAction("com.linspirer.edu.no_control_camera");
-        mContext.sendBroadcast(intent6);
-        intent6.setAction("com.linspirer.edu.no_control_screen_shoot");
-        mContext.sendBroadcast(intent6);
-        enablewifi(true);
-        enableLongPressPower(true);
+        send2linspirer("com.linspirer.edu.enablenavigationbar");
+        send2linspirer("com.linspirer.edu.enable.screenshot");
+        send2linspirer("com.linspirer.edu.enable.changewallpaper");
+        send2linspirer("com.linspirer.edu.enableotg");
+        send2linspirer("com.linspirer.edu.enablefileshare");
+        send2linspirer("com.linspirer.edu.enableshortpower");
+        send2linspirer("com.linspirer.edu.enablemic");
+        send2linspirer("com.linspirer.edu.enablePhoneAndSms");
+        send2linspirer("com.linspirer.edu.clearwifiwhitelist");
+        send2linspirer("com.linspirer.edu.enablestatusbar");
+        send2linspirer("com.linspirer.edu.enablephoneserver");
+        send2linspirer("com.linspirer.edu.enable_camera");
+        send2linspirer("com.linspirer.edu.allowstart.clear");
+        send2linspirer("com.linspirer.edu.no_control_camera");
+        send2linspirer("com.linspirer.edu.no_control_screen_shoot");
+        send2linspirer("com.linspirer.edu.enable.wifi");
+        send2linspirer("com.android.laucher3.mdm.enableLongPressPower");
     }
     @Override
     public void hack_into_generic_mdm_with_linspirer_miemie() {
@@ -549,6 +523,12 @@ public class GenericMDM implements MDMInterface{
         mContext.startService(huawei);
     }
 
+    private void send2linspirer(String action){
+        Intent intent=new Intent(action);
+        intent.setPackage("com.android.launcher3");
+        mContext.sendBroadcast(intent);
+    }
+
     @Override
     public String getAppWhitelist() {
         ArrayList<String>list1=new ArrayList<>();
@@ -568,11 +548,11 @@ public class GenericMDM implements MDMInterface{
 
     @Override
     public void installApp(String apkpath) {
-        Intent intent4 = new Intent();
-        intent4.setPackage("com.android.launcher3");
-        intent4.setAction("com.linspirer.edu.silentinstall");
-        intent4.putExtra("path",apkpath);
-        mContext.sendBroadcast(intent4);
+        Intent intent = new Intent();
+        intent.setPackage("com.android.launcher3");
+        intent.setAction("com.linspirer.edu.silentinstall");
+        intent.putExtra("path",apkpath);
+        mContext.sendBroadcast(intent);
     }
 
     @Override
@@ -732,14 +712,8 @@ public class GenericMDM implements MDMInterface{
 
     @Override
     public void ForceLogout() {
-        Intent intent = new Intent();
-        intent.setAction("com.drupe.swd.launcher.action.logoutworkspace");
-        intent.setPackage("com.android.launcher3");
-        mContext.sendBroadcast(intent);
-        Intent intent2 = new Intent("com.linspirer.edu.logout");
-        intent2.setPackage("com.android.launcher3");
-        mContext.sendBroadcast(intent2);
-
+        send2linspirer("com.drupe.swd.launcher.action.logoutworkspace");
+        send2linspirer("com.linspirer.edu.logout");
     }
 
     @Override
@@ -820,9 +794,7 @@ public class GenericMDM implements MDMInterface{
 
     @Override
     public void classOver() {
-        Intent intent=new Intent("com.linspirer.edu.class.over");
-        intent.setPackage("com.android.launcher3");
-        mContext.sendBroadcast(intent);
+        send2linspirer("com.linspirer.edu.class.over");
     }
 
     @Override
@@ -990,40 +962,11 @@ public class GenericMDM implements MDMInterface{
     @Override
     public void enablegps(boolean enable) {
         if(enable){
-            Intent intent = new Intent("com.linspirer.edu.enable.gps");
-            intent.setPackage(launcher);
-            mContext.sendBroadcast(intent);
+            send2linspirer("com.linspirer.edu.enable.gps");
         }else{
-            Intent intent = new Intent("com.linspirer.edu.disable.gps");
-            intent.setPackage(launcher);
-            mContext.sendBroadcast(intent);
+            send2linspirer("com.linspirer.edu.disable.gps");
         }
 
     }
 
-    private void enableLongPressPower(boolean enable) {
-        if(enable){
-            Intent intent = new Intent("com.android.laucher3.mdm.enableLongPressPower");
-            intent.setPackage(launcher);
-            mContext.sendBroadcast(intent);
-        }else{
-            Intent intent = new Intent("com.android.laucher3.mdm.disableLongPressPower");
-            intent.setPackage(launcher);
-            mContext.sendBroadcast(intent);
-        }
-    }
-
-
-    private void enablewifi(boolean enable) {
-        if(enable){
-            Intent intent = new Intent("com.linspirer.edu.enable.wifi");
-            intent.setPackage(launcher);
-            mContext.sendBroadcast(intent);
-        }else{
-            Intent intent = new Intent("com.linspirer.edu.disable.wifi");
-            intent.setPackage(launcher);
-            mContext.sendBroadcast(intent);
-        }
-
-    }
 }
