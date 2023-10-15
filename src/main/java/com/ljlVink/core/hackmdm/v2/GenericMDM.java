@@ -221,7 +221,7 @@ public class GenericMDM implements MDMInterface{
             intent4.setAction("com.linspirer.edu.enableapp");
             intent4.putExtra("appwhitelist",li1test);
             mContext.sendBroadcast(intent4);
-
+            clear_enable_app_list_mdm();
         }
     }
 
@@ -239,6 +239,7 @@ public class GenericMDM implements MDMInterface{
                 intent4.setAction("com.linspirer.edu.disableapp");
                 intent4.putExtra("appwhitelist",Applist);
                 mContext.sendBroadcast(intent4);
+                clear_enable_app_list_mdm();
             }
         }
     }
@@ -425,6 +426,7 @@ public class GenericMDM implements MDMInterface{
             intent.setAction("com.linspirer.edu.enableapp");
             intent.putExtra("appwhitelist",apps);
             mContext.sendBroadcast(intent);
+            clear_enable_app_list_mdm();
         }
         if(isEMUI10UnlockedDevice()){
             return;
@@ -601,6 +603,7 @@ public class GenericMDM implements MDMInterface{
                     intent4.setAction("com.linspirer.edu.disableapp");
                     intent4.putExtra("appwhitelist",arr);
                     mContext.sendBroadcast(intent4);
+                    clear_enable_app_list_mdm();
                 }
                 else{
                     Intent intent4 = new Intent();
@@ -608,11 +611,20 @@ public class GenericMDM implements MDMInterface{
                     intent4.setAction("com.linspirer.edu.enableapp");
                     intent4.putExtra("appwhitelist",arr);
                     mContext.sendBroadcast(intent4);
+                    clear_enable_app_list_mdm();
                 }
             }
          }
     }
-
+    private void clear_enable_app_list_mdm(){
+        ArrayList<String > arr=new ArrayList<>();
+        arr.add("aaaaaaaaaaaaaaa");
+        Intent intent4 = new Intent();
+        intent4.setPackage("com.android.launcher3");
+        intent4.setAction("com.linspirer.edu.disableapp");
+        intent4.putExtra("appwhitelist",arr);
+        mContext.sendBroadcast(intent4);
+    }
     @Override
     public void RemoveDeviceOwner_admin() {
         if(isDeviceOwnerActive()){
