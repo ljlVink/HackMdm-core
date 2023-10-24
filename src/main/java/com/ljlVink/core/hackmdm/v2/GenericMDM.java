@@ -777,7 +777,7 @@ public class GenericMDM implements MDMInterface{
         if(!DataUtils.readStringValue(mContext,"wallpaper","").equals("")){
             setLinspirerDesktopWallpaper(DataUtils.readStringValue(mContext,"wallpaper",""));
         }
-
+        send2linspirer("com.linspirer.edu.disablephoneserver");
     }
 
     @Override
