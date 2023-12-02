@@ -184,7 +184,9 @@ public class GenericMDM implements MDMInterface{
                     disable_factory();
                     hack_into_generic_mdm_with_Linspirer();
                 }
-                pullDown_app();
+                if(DataUtils.readint(mContext,"pulldown_app_until_volume_press",0)==0){
+                    pullDown_app();
+                }
                 blockUninstall(new ArrayList<>());
                 hack_into_generic_mdm_with_linspirer_miemie();
                 Looper.loop();

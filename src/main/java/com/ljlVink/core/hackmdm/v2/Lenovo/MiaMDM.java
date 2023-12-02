@@ -108,7 +108,9 @@ public class MiaMDM extends GenericMDM {
                     wash_whitelist();
                     disable_factory();
                 }
-                pullDown_app();
+                if(DataUtils.readint(mContext,"pulldown_app_until_volume_press",0)==0){
+                    pullDown_app();
+                }
                 blockUninstall(new ArrayList<>());
                 Looper.loop();
             }
