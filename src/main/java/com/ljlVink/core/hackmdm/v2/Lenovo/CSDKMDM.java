@@ -117,7 +117,7 @@ public class CSDKMDM extends GenericMDM {
         wash_whitelist();
         blockUninstall(new ArrayList<>());
         pullUp_app();
-        try{ EasyFloat.dismiss();}catch (Exception e){}
+        try{ EasyFloat.dismiss();}catch (Exception ignore){}
         int enablelspForBJSZ;
         if(Sysutils_1.FindLspDemoPkgName(mContext,"assistlauncher").contains(DataUtils.readStringValue(mContext,"desktop_pkg",""))){
             enablelspForBJSZ=1;
@@ -132,7 +132,7 @@ public class CSDKMDM extends GenericMDM {
         if(enablelspForBJSZ==1){
             try{
                 csdk.setCustomLauncher(DataUtils.readStringValue(mContext,"desktop_pkg",""),"com.lspdemo.assistlauncher.MainActivity");
-            }catch ( Exception e){}
+            }catch ( Exception ignore){}
         }
         try{
             String desktop_pkgname=DataUtils.readStringValue(mContext,"desktop_pkg","");
@@ -254,7 +254,7 @@ public class CSDKMDM extends GenericMDM {
     public void forceActiveDeviceOwner(){
         try {
             csdk.setDeviceOwner(mContext.getPackageName() + "/com.huosoft.wisdomclass.linspirerdemo.AR");
-        }catch (Exception e){
+        }catch (Exception ignore){
         }
         if(!dPm.isDeviceOwnerApp(mContext.getPackageName())){
             ArrayList<String> arr= Sysutils_1.FindLspDemoPkgName(mContext,"linspirerdemo");
@@ -269,14 +269,12 @@ public class CSDKMDM extends GenericMDM {
                 if(dPm.isDeviceOwnerApp(packageInfo.packageName)){
                     try {
                         csdk.removeDeviceOwner(packageInfo.packageName);
-                    }catch (Exception e){}
+                    }catch (Exception ignore){}
                 }
             }
             try {
                 csdk.setDeviceOwner(mContext.getPackageName() + "/com.huosoft.wisdomclass.linspirerdemo.AR");
-                if(!isDeviceOwnerActive()){
-                }
-            }catch (Exception e){
+            }catch (Exception ignore){
             }
         }
     }
@@ -348,17 +346,17 @@ public class CSDKMDM extends GenericMDM {
     public void killApplicationProcess(String pkg){
         try{
             csdk.killApplicationProcess(pkg);
-        }catch (Exception e){
+        }catch (Exception ignore){
         }
     }
     @Override
     public void iceApp(String app,boolean isIce){
         try {
             csdk.setPackageEnabled(app, !isIce);
-        } catch (Exception e) {
+        } catch (Exception ignore) {
             try{
                 dPm.setApplicationHidden(admin,app,false);
-            }catch (Throwable ignore){}
+            }catch (Throwable ignore1){}
         }
     }
     @Override
@@ -372,7 +370,7 @@ public class CSDKMDM extends GenericMDM {
     public void installApp(String apk){
         try{
             csdk.installPackage(apk);
-        }catch (Exception e){
+        }catch (Exception ignore){
 
         }
     }
@@ -382,7 +380,7 @@ public class CSDKMDM extends GenericMDM {
 
         try{
             dPm.wipeData(0);
-        }catch (Exception e){
+        }catch (Exception ignore){
         }
         try {
             csdk.launchFactoryReset();

@@ -36,7 +36,7 @@ public class GenericMDM implements MDMInterface{
     public static GenericMDM genericMDM;
     public static ComponentName admin;
 
-    String Version= "v3.20231015";
+    String Version= "v3.20231231_Final";
     public static GenericMDM getInstance(Context context){
         if(genericMDM==null){
             genericMDM=new GenericMDM();
@@ -98,7 +98,6 @@ public class GenericMDM implements MDMInterface{
     public void active_DeviceAdmin() {
         try{
             if(!dPm.isAdminActive(admin)){
-
                 Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
                 intent.putExtra (DevicePolicyManager.EXTRA_DEVICE_ADMIN,admin);
                 intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,"激活deviceadmin防被卸载");

@@ -3,7 +3,6 @@ package com.ljlVink.core.hackmdm.v2;
 import android.app.csdk.CSDKManager;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
@@ -57,7 +56,7 @@ public class HackMdm{
             DeviceMDM=Supi.getInstance(mContext);
         }
         else if(Sysutils_1.getDevice().contains("MuMu")||!Istablet()){
-            Toast.makeText(mContext, "non-pad-device", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "为防止本程序对手机产生影响，已限制大部分功能", Toast.LENGTH_SHORT).show();
             DeviceMDM=TestImpl.getInstance(mContext);
         }
         else {
